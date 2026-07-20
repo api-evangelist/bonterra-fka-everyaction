@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.everyaction.com/reference/authentication
+docs: https://docs.everyaction.com/reference/authentication
+summary:
+  types:
+  - http
+  http_schemes:
+  - basic
+  notes: >-
+    HTTP Basic authentication. Username is the developer-assigned Application Name; password is the
+    API key with a database-mode suffix appended after a pipe. Standard Base64 Authorization: Basic
+    header. There is no OAuth or scope surface on the EveryAction/NGP VAN API.
+schemes:
+- name: BasicAuth
+  type: http
+  scheme: basic
+  in: header
+  header: Authorization
+  username: application-name
+  password_format: "{apiKey}|{databaseMode}"
+  database_modes:
+    '0': My Voters (voter-file data)
+    '1': My Campaign (CRM without voter file)
+  example_password: "7c9e6679-7425-40de-944b-e07fc1f90ae7|1"
+  sources:
+  - docs
+notes:
+- API keys are tied to a specific developer and application and must not be shared, exposed in
+  client-side code, or committed to public repositories.
+- The GET /apiKeyProfiles introspection endpoint returns information about the API key in use.
