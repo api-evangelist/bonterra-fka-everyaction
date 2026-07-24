@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.everyaction.com/
+api: EveryAction (NGP VAN) API
+versioning:
+  scheme: uri-path
+  current: v4
+  detail: The API version (v4) is pinned in the base path https://api.securevan.com/v4/.
+  docs: https://docs.everyaction.com/
+deprecation:
+  policy_url: https://docs.everyaction.com/changelog
+  detail: >-
+    Deprecations are announced through the dated changelog with an effective date. Example: the
+    /phones/isCellStatus endpoint was deprecated as of 2026-02-18. No formal Sunset/Deprecation
+    HTTP-header (RFC 8594) support is documented.
+  sunset_header: false
+  ref: changelog/bonterra-fka-everyaction-changelog.yml
+deprecated_operations:
+- endpoint: /phones/isCellStatus
+  deprecated_on: '2026-02-18'
+sla:
+  url: null
+  detail: No public SLA / uptime target is published.
+status_page: null
+status_page_detail: No public status page (status.everyaction.com does not resolve).
+changelog: https://docs.everyaction.com/changelog

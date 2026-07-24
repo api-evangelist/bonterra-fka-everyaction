@@ -1,0 +1,52 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: https://docs.everyaction.com/reference
+note: >-
+  No official hosted/remote MCP server was found for EveryAction/NGP VAN. This is a candidate tool
+  list derived from the publicly documented v4 REST endpoints (docs.everyaction.com/reference and
+  llms.txt) — not a published server. Auth would be HTTP Basic (Application Name + "{apiKey}|{mode}").
+server:
+  name: everyaction
+  transport: http
+  base_url: https://api.securevan.com/v4/
+tools:
+- name: get_api_key_profile
+  description: Return information about the API key in use (introspection).
+  source_operation: GET /apiKeyProfiles
+- name: find_person
+  description: Find a person using a match candidate.
+  source_operation: POST /people/find
+- name: get_activist_code
+  description: Retrieve information about a specific Activist Code.
+  source_operation: GET /activistCodes/{activistCodeId}
+- name: create_bulk_import_job
+  description: Initiate a bulk import job from a zipped delimited file.
+  source_operation: POST /bulkImportJobs
+- name: create_file_loading_job
+  description: Initiate a file-loading job from a zipped CSV file.
+  source_operation: POST /fileLoadingJobs
+- name: create_recurring_payment
+  description: Create a recurring commitment and process the first installment.
+  source_operation: POST /commitments/recurringPayments
+- name: record_contribution_payment
+  description: Record and process a contribution with payment information.
+  source_operation: POST /contributions/payments
+- name: list_recent_contributions
+  description: Retrieve recent contributions by vanId.
+  source_operation: GET /contributions/recentContributions
+- name: list_recent_disbursements
+  description: Retrieve recent disbursements by vanId.
+  source_operation: GET /disbursements/recentDisbursements
+- name: create_event
+  description: Create a new event.
+  source_operation: POST /events
+- name: create_survey_question
+  description: Create a new survey question in the current context.
+  source_operation: POST /surveyQuestions
+- name: list_minivan_exports
+  description: Retrieve all available MiniVAN exports.
+  source_operation: GET /minivanExports
+- name: list_printed_lists
+  description: Retrieve all available printed lists.
+  source_operation: GET /printedLists

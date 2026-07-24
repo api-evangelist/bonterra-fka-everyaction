@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.everyaction.com/
+docs: https://docs.everyaction.com/docs/getting-started
+api: EveryAction (NGP VAN) API
+base_url: https://api.securevan.com/v4/
+authentication:
+  style: http-basic
+  detail: Application Name as username; "{apiKey}|{databaseMode}" as password.
+  ref: authentication/bonterra-fka-everyaction-authentication.yml
+database_context:
+  description: >-
+    Every request runs against one of two database contexts selected by the mode suffix on the API
+    key rather than by a path or header — 0 = My Voters, 1 = My Campaign.
+pagination:
+  style: offset
+  params:
+  - $top
+  - $skip
+  response_wrapper: Paginated List
+  response_fields:
+  - items
+  - count
+  - nextPageLink
+  detail: >-
+    List endpoints return a "Paginated List" wrapper with an items array, a total count, and a
+    nextPageLink cursor URL; $top and $skip control page size and offset.
+content_type: application/json
+versioning:
+  style: uri-path
+  current: v4
+  ref: lifecycle/bonterra-fka-everyaction-lifecycle.yml
+error_envelope:
+  detail: >-
+    Errors return an HTTP status (commonly 400 Bad Request) with a JSON body carrying an errors
+    array; individual errors include a code and human-readable text/message.
+  ref: null
+idempotency:
+  supported: false
+  detail: No idempotency-key header or contract is documented for the EveryAction/NGP VAN API.
+rate_limiting:
+  detail: >-
+    Bulk operations are the recommended path for high-volume writes (bulk import and file-loading
+    jobs handle multiple record types in a single 20MB zipped upload); no explicit rate-limit
+    response headers are documented.
+cross_links:
+  authentication: authentication/bonterra-fka-everyaction-authentication.yml
+  changelog: changelog/bonterra-fka-everyaction-changelog.yml
+  lifecycle: lifecycle/bonterra-fka-everyaction-lifecycle.yml

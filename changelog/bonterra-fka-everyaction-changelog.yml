@@ -1,0 +1,43 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.everyaction.com/changelog
+api: EveryAction (NGP VAN) API
+scheme: dated-changelog
+scheme_detail: >-
+  EveryAction publishes a dated ReadMe changelog rather than semantic API versions; the REST API
+  itself is pinned to v4 in the URI path.
+current_version: v4
+entries:
+- title: Deprecated isCellStatus
+  date: '2026-02-18'
+  type: breaking
+  highlights:
+  - The /phones/isCellStatus endpoint has been deprecated as of February 18, 2026.
+  url: https://docs.everyaction.com/changelog/deprecated-iscellstatus
+- title: Added ability to apply/edit custom field values on contributions
+  date_approximate: '2025-08'
+  type: addition
+  highlights:
+  - Custom field values can now be applied and edited on contributions.
+  url: https://docs.everyaction.com/changelog/added-ability-to-applyedit-custom-field-values-on-contributions
+- title: Added disclosureFields to Designations endpoint
+  date_approximate: '2025-08'
+  type: addition
+  highlights:
+  - disclosureFields added to the Designations endpoint.
+  url: https://docs.everyaction.com/changelog/added-disclosurefields-to-designations-endpoint
+- title: Added Support for Recent Disbursements
+  date_approximate: '2025-07'
+  type: addition
+  highlights:
+  - New /disbursements/recentDisbursements endpoint to retrieve disbursements by vanId.
+  url: https://docs.everyaction.com/changelog/added-support-for-recent-disbursements
+- title: Added Support for Recent Contributions
+  date_approximate: '2025-07'
+  type: addition
+  highlights:
+  - New /contributions/recentContributions endpoint to retrieve contributions by vanId.
+  url: https://docs.everyaction.com/changelog/added-support-for-recent-contributions
+notes:
+- Dates flagged date_approximate are derived from the changelog's relative-age labels; only the
+  isCellStatus deprecation carried an explicit calendar date in its body.

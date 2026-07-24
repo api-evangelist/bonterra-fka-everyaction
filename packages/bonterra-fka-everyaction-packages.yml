@@ -1,0 +1,17 @@
+generated: '2026-07-18'
+method: searched
+source: https://pypi.org/
+note: >-
+  No first-party EveryAction / NGP VAN client SDK was found on npm, PyPI, RubyGems, NuGet,
+  pkg.go.dev, Packagist, or crates.io. The listing below is a community wrapper only; because there
+  is no official first-party library, no `SDKs` rating pointer is emitted.
+packages:
+- language: python
+  registry: pypi
+  name: parsons
+  url: https://pypi.org/project/parsons/
+  install: pip install parsons
+  official: false
+  detail: >-
+    Community ETL library ("connectors for the progressive community", The Movement Cooperative)
+    that includes a VAN/EveryAction connector. Not published or maintained by Bonterra/EveryAction.

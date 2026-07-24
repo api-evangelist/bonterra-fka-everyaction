@@ -1,0 +1,39 @@
+generated: '2026-07-18'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.everyaction.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  7 07:51:50 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.everyaction.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  2 12:28:55 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.securevan.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 27 15:56:09 2026 GMT
+  hsts: false
+domains:
+- domain: everyaction.com
+  dnssec: false
+  caa:
+  - 0 issue "ssl.com"
+  - 0 issue "amazon.com"
+  - 0 issue "digicert.com"
+  - 0 issue "globalsign.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog"
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+- domain: securevan.com
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

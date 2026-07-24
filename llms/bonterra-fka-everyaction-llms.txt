@@ -1,0 +1,63 @@
+# EveryAction Documentation
+
+> Documentation for EveryAction
+
+## Guides
+- [Guidelines](https://docs.everyaction.com/docs/getting-started.md)
+- [Security Review Process](https://docs.everyaction.com/docs/security-review-process.md)
+- ["Officially Unsupported" features](https://docs.everyaction.com/docs/other-solutions.md)
+
+## API Reference
+- [Introspection](https://docs.everyaction.com/reference/introspection.md): An introspection endpoint is available, if you need information about the API key you are using. The route returns a Paginated List of API keys available, with only one element in the list.
+- [Common Models](https://docs.everyaction.com/reference/people-common-models.md)
+- [/people/find](https://docs.everyaction.com/reference/people-find.md): Attempts to find a person using the given match candidate. See [Common Models](ref:people#common-models) for a full list of fields.
+- [/activistCodes/{activistCodeId}](https://docs.everyaction.com/reference/activistcodes-activistcodeid.md): Use this endpoint to retrieve information about a specific Activist Code available in the current context.
+- [Overview](https://docs.everyaction.com/reference/bulk-import-overview.md)
+- [/bulkImportJobs](https://docs.everyaction.com/reference/bulkimportjobs.md): Initiates a bulk import job by specifying the url for a zipped, delimited file, of no more than 20MB. A bulk import job can update and/or create multiple data types including, but not limited to, `Contacts`, `Contributions`, and `ActivistCodes`. For a complete list of supported types, see the [resources](ref:bulk-import#bulkimportjobsresources) endpoint.  The zipped file can contain both update and creation records for a single resource type. It can also contain a header row. The header row is only there as a debugging aid, and is not used by the import process. See Property `hasHeader` in the [File](ref:file-loading-jobs) object for more information on headers.  When the bulk import job is updating resources, if any non-required columns are left blank, those fields will not be updated. This process cannot be used to delete information; it can only update or create.
+- [/commitments/recurringPayments](https://docs.everyaction.com/reference/commitments-recurringpayments.md): Creates a Recurring Commitment record and processes or initiates the first installment contribution with the payment information provided in the request body.
+- [/contributions/payments](https://docs.everyaction.com/reference/contributions-payments.md): Records and processes a Contribution with the payment information provided in the request body.
+- [/contributions/recentContributions](https://docs.everyaction.com/reference/contributionsrecentcontributions.md): Retrieve a list of Contributions by `vanId`
+- [/disbursements/recentDisbursements](https://docs.everyaction.com/reference/disbursementsrecentdisbursements.md): Retrieve a list of Disbursements by `vanId`
+- [Early Vote Fields](https://docs.everyaction.com/reference/early-vote-fields.md)
+- [Overview](https://docs.everyaction.com/reference/early-vote-fields-overview.md)
+- [Common Models](https://docs.everyaction.com/reference/early-vote-fields-common-models.md)
+- [/earlyVoteFields](https://docs.everyaction.com/reference/earlyvotefields.md)
+- [/earlyVoteFields/{earlyVoteFieldId}](https://docs.everyaction.com/reference/earlyvotefieldsearlyvotefieldid.md)
+- [/employers/{employerId}/bargainingUnits/{bargainingUnitId}](https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitiddelete.md): Use this to delete the relationship or link between an Employer and a BargainingUnit. This does not update the Employer nor BargainingUnit, but rather the relation between them.<br/><br/>If successful, the endpoint will respond with HTTP Status Code `200 OK`.<br/><br/>If the specified Employer-BargainingUnit relationship does not exist or is not accessible, this endpoint will return with an error message with Status Code `400 Bad Request`.
+- [/employers/{employerId}/bargainingUnits/{bargainingUnitId}/jobClasses/{jobClassId}](https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitidjobclassesjobclassiddelete.md): Use this to delete the relationship or link between an Employer, BargainingUnit and JobClass. This does not update the Employer, BargainingUnit nor JobClass, but rather the relation between them.<br/><br/>If successful, the endpoint will respond with HTTP Status Code `200 OK`.<br/><br/>If the specified Employer-BargainingUnit-JobClass relationship does not exist or is not accessible, this endpoint will return with an error message with Status Code `400 Bad Request`.
+- [/employers/{employerId}/shiftTypes/{shiftTypeId}](https://docs.everyaction.com/reference/employersemployeridshifttypesshifttypeiddelete.md): Use this to delete the relationship or link between an Employer and a ShiftType. This does not update the Employer nor ShiftType, but rather the relation between them.<br/><br/>If successful, the endpoint will respond with HTTP Status Code `200 OK`.<br/><br/>If the specified Employer-ShiftType relationship does not exist or is not accessible, this endpoint will return with an error message with Status Code `400 Bad Request`.
+- [/events](https://docs.everyaction.com/reference/post-events.md): Use this endpoint to create a new Event.  If successful, the endpoint responds with HTTP Status Code `201 Created` and the integer ID of the created Event in the response body. It also sets the **Location** header to the [location](ref:eventseventid) of the newly created Event.
+- [/fileLoadingJobs](https://docs.everyaction.com/reference/fileloadingjobs.md): Initiates a File-Loading Job by specifying the URL for a zipped CSV file, containing data to be loaded, and the action(s) to be taken on it.
+- [Common Models](https://docs.everyaction.com/reference/folders-common-models.md)
+- [/folders/{folderId}/mapRegions](https://docs.everyaction.com/reference/foldersfolderidmapregions.md): Use this endpoint to get details about all Map Regions in the specified folder
+- [/folders/{folderId}/mapRegions/refresh](https://docs.everyaction.com/reference/foldersfolderidmapregionsrefresh.md): Use this endpoint to refresh all Map Regions in the specified Folder
+- [/folders/{folderId}/mapRegions/{mapRegionId}](https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionid.md): Use this endpoint to retrieve the details of a specific Map Region in the specified Folder
+- [/folders/{folderId}/mapRegions/{mapRegionId}/refresh](https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionidrefresh.md): Use this endpoint to refresh a Map Region in the specified Folder
+- [/minivanExports](https://docs.everyaction.com/reference/minivanexports.md): Use this endpoint to retrieve all available MiniVAN Exports.
+- [Common Models](https://docs.everyaction.com/reference/printed-lists-common-models.md)
+- [/printedLists](https://docs.everyaction.com/reference/printedlists.md): Use this endpoint to retrieve all available Printed Lists
+- [/scores/{scoreId}/committeeAccess](https://docs.everyaction.com/reference/scoresscoreidcommitteeaccess.md): Use this endpoint to retrieve the committee access details of a specific Score.
+- [Overview](https://docs.everyaction.com/reference/shift-types-overview.md)
+- [/surveyQuestions](https://docs.everyaction.com/reference/create-surveyquestion.md): Use this endpoint to create a new Survey Question in the current context
+- [/surveyQuestions/{surveyQuestionId}](https://docs.everyaction.com/reference/surveyquestionssurveyquestionid-1.md): Use this endpoint to update a Survey Question in the current context
+- [Common Models](https://docs.everyaction.com/reference/targets-common-models.md)
+- [/voterRegistrationBatches/{batchId}/people](https://docs.everyaction.com/reference/voterregistrationbatchesbatchidpeople.md): Add Registrants to a Voter Registration Batch  *Description*  Use this endpoint to submit up to 25 registrants to a Voter Registration Batch. Fields published via `POST /voterRegistrationBatches` should be specified in CustomProperties.
+- [Common Models](https://docs.everyaction.com/reference/worksites-common-models.md)
+- [/worksites/{worksiteId}](https://docs.everyaction.com/reference/worksitesworksiteidput.md): Use this endpoint to modify and update an existing Worksite.
+- [/worksites/{worksiteId}](https://docs.everyaction.com/reference/worksitesworksiteiddelete.md): Use this endpoint to delete an existing Worksite.
+- [/worksites/{worksiteId}/workAreas/{workAreaId}](https://docs.everyaction.com/reference/worksitesworksiteidworkareasput.md): Use this endpoint to modify and update an existing WorkArea.
+- [/worksites/{worksiteId}/workAreas/{workAreaId}](https://docs.everyaction.com/reference/worksitesworksiteidworkareasworkareaiddelete.md): Use this endpoint to delete an existing WorkArea.
+- [Enhanced ecommerce tracking in Google Tag Manager](https://docs.everyaction.com/reference/enhanced-ecommerce-tracking-in-google-tag-manager.md)
+- [Cookie Consent Management](https://docs.everyaction.com/reference/cookie-consent-management.md)
+
+## Recipes
+- [First API Call](https://docs.everyaction.com/recipes/first-api-call.md)
+- [Modify a Canvass Response to Update SMS Opt-In Status](https://docs.everyaction.com/recipes/modify-a-canvass-response-to-update-sms-opt-in-status.md)
+- [Record Canvass Response with Phone Number](https://docs.everyaction.com/recipes/record-canvass-response-with-phone-number.md)
+
+## Changelog
+- [Deprecated isCellStatus](https://docs.everyaction.com/changelog/deprecated-iscellstatus.md)
+- [Added ability to apply/edit custom field values on contributions](https://docs.everyaction.com/changelog/added-ability-to-applyedit-custom-field-values-on-contributions.md)
+- [Added disclosureFields to Designations endpoint](https://docs.everyaction.com/changelog/added-disclosurefields-to-designations-endpoint.md)
+- [Added Support for Recent Disbursements](https://docs.everyaction.com/changelog/added-support-for-recent-disbursements.md)
+- [Added Support for Recent Contributions](https://docs.everyaction.com/changelog/added-support-for-recent-contributions.md)

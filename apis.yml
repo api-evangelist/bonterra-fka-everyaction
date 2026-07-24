@@ -1,26 +1,109 @@
 aid: bonterra-fka-everyaction
 name: Bonterra (fka EveryAction)
-description: Bonterra (fka EveryAction) is a company surfaced as a portfolio company of insight-partners
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+description: >-
+  Bonterra (formerly EveryAction) is a social-good technology company whose EveryAction / NGP VAN
+  platform powers fundraising, advocacy, organizing, and supporter engagement for nonprofits, unions,
+  and political campaigns. The EveryAction 8 (EA8) REST API at api.securevan.com/v4 exposes people
+  matching, contributions and recurring commitments, disbursements, events, survey questions, activist
+  codes, canvass responses, bulk import and file-loading jobs, early-vote and voter-registration fields,
+  employers/worksites, scores, printed lists, and MiniVAN exports. It uses HTTP Basic authentication with
+  an application name and an API key scoped to a database mode (My Voters or My Campaign), and is
+  documented on a ReadMe-hosted developer portal with a reference, recipes, changelog, and an llms.txt.
 url: https://raw.githubusercontent.com/api-evangelist/bonterra-fka-everyaction/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - insight-partners
-x-tier: stub
+x-tier: enriched
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- API
+- CRM
+- Nonprofit
+- Fundraising
+- Advocacy
+- Political
+- Voter Engagement
+- Donor Management
+- Organizing
+image: https://docs.everyaction.com/favicon.ico
+apis:
+- name: EveryAction (NGP VAN) API
+  description: >-
+    The EveryAction 8 (EA8) / NGP VAN REST API for nonprofit and campaign CRM data — people matching,
+    contributions, recurring commitments, disbursements, events, survey questions, activist codes,
+    canvass responses, bulk import and file-loading jobs, voter registration, and MiniVAN exports.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - CRM
+  - Nonprofit
+  - Fundraising
+  - Advocacy
+  - Political
+  properties:
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: MCPServer
+    url: mcp/bonterra-fka-everyaction-mcp.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/bonterra-fka-everyaction-domain-security.yml
 - type: Website
   url: https://www.everyaction.com/
+- type: DeveloperPortal
+  url: https://docs.everyaction.com/
+- type: Documentation
+  url: https://docs.everyaction.com/docs/getting-started
+- type: APIReference
+  url: https://docs.everyaction.com/reference
+- type: GettingStarted
+  url: https://docs.everyaction.com/recipes/first-api-call
+- type: ChangeLog
+  url: https://docs.everyaction.com/changelog
+- type: GitHubOrganization
+  url: https://github.com/NGPVAN
+- type: Authentication
+  url: authentication/bonterra-fka-everyaction-authentication.yml
+- type: Conventions
+  url: conventions/bonterra-fka-everyaction-conventions.yml
+- type: Lifecycle
+  url: lifecycle/bonterra-fka-everyaction-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/bonterra-fka-everyaction-lifecycle.yml
+- type: ChangeLog
+  url: changelog/bonterra-fka-everyaction-changelog.yml
+- type: LLMsTxt
+  url: llms/bonterra-fka-everyaction-llms.txt
+- type: MCPServer
+  url: mcp/bonterra-fka-everyaction-mcp.yml
+- type: Packages
+  url: packages/bonterra-fka-everyaction-packages.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
