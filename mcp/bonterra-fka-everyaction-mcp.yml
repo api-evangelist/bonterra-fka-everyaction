@@ -2,10 +2,9 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: https://docs.everyaction.com/reference
-note: >-
-  No official hosted/remote MCP server was found for EveryAction/NGP VAN. This is a candidate tool
-  list derived from the publicly documented v4 REST endpoints (docs.everyaction.com/reference and
-  llms.txt) — not a published server. Auth would be HTTP Basic (Application Name + "{apiKey}|{mode}").
+note: No official hosted/remote MCP server was found for EveryAction/NGP VAN. This is a candidate tool
+  list derived from the publicly documented v4 REST endpoints (docs.everyaction.com/reference and llms.txt)
+  — not a published server. Auth would be HTTP Basic (Application Name + "{apiKey}|{mode}").
 server:
   name: everyaction
   transport: http
@@ -50,3 +49,9 @@ tools:
 - name: list_printed_lists
   description: Retrieve all available printed lists.
   source_operation: GET /printedLists
+deployment:
+  mode: none
+  verified: derived
+  tools: 13
+  checked: '2026-08-12'
+  source: catalog MCP census
