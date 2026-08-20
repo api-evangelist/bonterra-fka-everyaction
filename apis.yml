@@ -33,6 +33,16 @@ created: '2026-07-17'
 modified: '2026-07-18'
 tags:
 - Company
+- CRM
+- Non-Profit
+- Fundraising
+- Advocacy
+- Political
+- Voter Engagement
+- Donor Management
+- Organizing
+tags_raw:
+- Company
 - API
 - CRM
 - Nonprofit
@@ -52,6 +62,12 @@ apis:
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
+  - CRM
+  - Non-Profit
+  - Fundraising
+  - Advocacy
+  - Political
+  tags_raw:
   - CRM
   - Nonprofit
   - Fundraising
