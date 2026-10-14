@@ -1,0 +1,67 @@
+generated: '2026-10-14'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 5
+  own: 2
+  other_domain: 2
+  platform: 1
+  roles:
+  - api
+  - marketing
+  - portal
+  - source
+  - website
+hosts:
+- host: api.securevan.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: securevan.com
+  role: api
+  relation: other-domain
+- host: docs.everyaction.com
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - DeveloperPortal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - ChangeLog
+  serves:
+  - docs
+  registrable_domain: everyaction.com
+  role: portal
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: www.bonterratech.com
+  found_by:
+  - pointer
+  types:
+  - Blog
+  serves: []
+  registrable_domain: bonterratech.com
+  role: marketing
+  relation: other-domain
+- host: www.everyaction.com
+  found_by:
+  - pointer
+  types:
+  - Website
+  serves: []
+  registrable_domain: everyaction.com
+  role: website
+  relation: own

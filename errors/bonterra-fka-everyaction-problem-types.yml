@@ -1,0 +1,59 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/bonterra-fka-everyaction-everyaction-8-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: null
+coverage:
+  operations: 219
+  statuses_declared: 6
+problems:
+- status: 400
+  title: Bad Request
+  description: '400'
+  operations: 216
+  media_types:
+  - application/json
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: '401'
+  operations: 3
+  media_types:
+  - application/json
+  - text/plain
+  schema: null
+- status: 403
+  title: Forbidden
+  description: '403'
+  operations: 14
+  media_types:
+  - application/json
+  - text/plain
+  schema: null
+- status: 404
+  title: Not Found
+  description: '404'
+  operations: 87
+  media_types:
+  - application/json
+  - text/plain
+  schema: null
+- status: 409
+  title: Conflict
+  description: '409'
+  operations: 2
+  media_types:
+  - application/json
+  schema: null
+- status: 500
+  title: Internal Server Error
+  description: '500'
+  operations: 5
+  media_types:
+  - application/json
+  - text/plain
+  schema: null

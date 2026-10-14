@@ -1,21 +1,27 @@
 aid: bonterra-fka-everyaction
+
 name: Bonterra (fka EveryAction)
-description: >-
-  Bonterra (formerly EveryAction) is a social-good technology company whose EveryAction / NGP VAN
-  platform powers fundraising, advocacy, organizing, and supporter engagement for nonprofits, unions,
-  and political campaigns. The EveryAction 8 (EA8) REST API at api.securevan.com/v4 exposes people
-  matching, contributions and recurring commitments, disbursements, events, survey questions, activist
-  codes, canvass responses, bulk import and file-loading jobs, early-vote and voter-registration fields,
-  employers/worksites, scores, printed lists, and MiniVAN exports. It uses HTTP Basic authentication with
-  an application name and an API key scoped to a database mode (My Voters or My Campaign), and is
-  documented on a ReadMe-hosted developer portal with a reference, recipes, changelog, and an llms.txt.
+
+description: Bonterra (formerly EveryAction) is a social-good technology company whose EveryAction / NGP VAN platform powers fundraising, advocacy,
+  organizing, and supporter engagement for nonprofits, unions, and political campaigns. The EveryAction 8 (EA8) REST API at api.securevan.com/v4
+  exposes people matching, contributions and recurring commitments, disbursements, events, survey questions, activist codes, canvass responses,
+  bulk import and file-loading jobs, early-vote and voter-registration fields, employers/worksites, scores, printed lists, and MiniVAN exports.
+  It uses HTTP Basic authentication with an application name and an API key scoped to a database mode (My Voters or My Campaign), and is documented
+  on a ReadMe-hosted developer portal with a reference, recipes, changelog, and an llms.txt.
+
 url: https://raw.githubusercontent.com/api-evangelist/bonterra-fka-everyaction/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - insight-partners
+
 x-tier: enriched
+
 x-tier-reason: portfolio-lead
+
 deliveryModel:
   model: library
   open_source: false
@@ -27,6 +33,7 @@ deliveryModel:
   - none
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: unknown
@@ -38,15 +45,25 @@ accessModel:
   source:
   - authentication
   - security
-  - {url: 'https://www.everyaction.com/', status: 301, note: 'declared website redirects to https://www.bonterratech.com/?utm_source=everyaction&utm_medium=redirect — a different registrable domain (everyaction.com -> bonterratech.com), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
+  - url: https://www.everyaction.com/
+    status: 301
+    note: declared website redirects to https://www.bonterratech.com/?utm_source=everyaction&utm_medium=redirect — a different registrable domain
+      (everyaction.com -> bonterratech.com), possible rename or acquisition (probed 2026-09-03, roadmap#169)
   generated: '2026-09-03'
   method: derived
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-10-06'
+
 x-docs-platform: readme
+
 x-docs-platform-confidence: high
+
 x-docs-platform-checked: 2026-09-20
+
 tags:
 - Company
 - CRM
@@ -57,6 +74,7 @@ tags:
 - Voter Engagement
 - Donor Management
 - Organizing
+
 tags_raw:
 - Company
 - API
@@ -68,41 +86,36 @@ tags_raw:
 - Voter Engagement
 - Donor Management
 - Organizing
+
 image: https://docs.everyaction.com/favicon.ico
-apis:
-- name: EveryAction (NGP VAN) API
-  description: >-
-    The EveryAction 8 (EA8) / NGP VAN REST API for nonprofit and campaign CRM data — people matching,
-    contributions, recurring commitments, disbursements, events, survey questions, activist codes,
-    canvass responses, bulk import and file-loading jobs, voter registration, and MiniVAN exports.
-  humanURL: https://docs.everyaction.com/
-  baseURL: https://api.securevan.com/v4/
-  tags:
-  - CRM
-  - Non-Profit
-  - Fundraising
-  - Advocacy
-  - Political
-  tags_raw:
-  - CRM
-  - Nonprofit
-  - Fundraising
-  - Advocacy
-  - Political
-  properties:
-  - type: Authentication
-    url: authentication/bonterra-fka-everyaction-authentication.yml
-  - type: Conventions
-    url: conventions/bonterra-fka-everyaction-conventions.yml
-  - type: X-MCPServerCandidate
-    url: mcp/bonterra-fka-everyaction-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/bonterra-fka-everyaction-agentic-access.yml
+- type: Spectral
+  url: rules/bonterra-fka-everyaction-rules.yml
+- type: Idempotency
+  url: conventions/bonterra-fka-everyaction-conventions.yml
+- type: ErrorCatalog
+  url: errors/bonterra-fka-everyaction-problem-types.yml
+- type: Conformance
+  url: conformance/bonterra-fka-everyaction-conformance.yml
+- type: Hosts
+  url: hosts/bonterra-fka-everyaction-hosts.yml
+- type: Vendors
+  url: vendors/bonterra-fka-everyaction-vendors.yml
+- type: Support
+  url: https://www.bonterratech.com/support
+- type: PrivacyPolicy
+  url: https://www.bonterratech.com/legal/privacy-policy
+- type: Leadership
+  url: https://www.bonterratech.com/leadership
 - url: https://www.bonterratech.com/blog
   type: Blog
 - type: DomainSecurity
@@ -135,11 +148,51 @@ common:
   url: llms/bonterra-fka-everyaction-llms.txt
 - type: X-MCPServerCandidate
   url: mcp/bonterra-fka-everyaction-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
-- type: Packages
-  url: packages/bonterra-fka-everyaction-packages.yml
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+    API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+    the artifact-type surfaces with a server that does not exist.'
+
+apis:
+- name: EveryAction (NGP VAN) API
+  description: The EveryAction 8 (EA8) / NGP VAN REST API for nonprofit and campaign CRM data — people matching, contributions, recurring commitments,
+    disbursements, events, survey questions, activist codes, canvass responses, bulk import and file-loading jobs, voter registration, and MiniVAN
+    exports.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - CRM
+  - Non-Profit
+  - Fundraising
+  - Advocacy
+  - Political
+  tags_raw:
+  - CRM
+  - Nonprofit
+  - Fundraising
+  - Advocacy
+  - Political
+  properties:
+  - url: openapi/bonterra-fka-everyaction-everyaction-8-openapi.yml
+    type: OpenAPI
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+      the artifact-type surfaces with a server that does not exist.'
+  aid: bonterra-fka-everyaction:everyaction-ngp-van-api
+
 x-enrichment:
   date: '2026-07-19'
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 219
+  tool: harvest-readme-openapi.py
+  portal: https://docs.everyaction.com
