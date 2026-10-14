@@ -1,5 +1,5 @@
 generated: '2026-10-14'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/bonterra-fka-everyaction/integrations
 - https://n8n.io/integrations/bonterra-fka-everyaction/
@@ -9,8 +9,17 @@ checked:
 - https://composio.dev/toolkits/bonterra-fka-everyaction
 - https://monid.ai/tools/bonterra-fka-everyaction
 - https://n8n.io/integrations/bonterra-fka-everyaction/
+- https://www.bonterratech.com/integrations
 - https://zapier.com/apps/bonterra-fka-everyaction/integrations
 summary: null
-marketplace_apps: []
+marketplace_apps:
+- marketplace: own
+  channel: partner-built
+  app: bonterra-fka-everyaction
+  url: https://www.bonterratech.com/integrations
+  app_count: null
+  adapter: sweep-nonprofit.py:unreadable
+  listed: 0
+  status: not-machine-readable (HTTP 404; no integrations directory (404); networkforgood.com redirects to bonterratech.com)
 edges: []
 templates: []
