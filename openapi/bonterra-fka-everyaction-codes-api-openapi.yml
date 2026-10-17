@@ -1,0 +1,1367 @@
+openapi: 3.2.0
+info:
+  title: everyaction-8 Codes API
+  version: '1.0'
+servers:
+- url: https://api.securevan.com/v4
+security:
+- sec0: []
+tags:
+- name: Codes
+paths:
+  /codes:
+    get:
+      summary: /codes
+      description: 'Use this endpoint to find Codes available in the current context using a number of filter options.
+
+
+        By default, this endpoint returns 50 records per request. A maximum of 200 records per request is allowed via the `$top` parameter.
+
+
+        The only valid expansion property is: `supportedEntities`.
+
+
+        The only valid `orderby` property is: `dateModified`.'
+      operationId: get-codes
+      parameters:
+      - name: supportedEntities
+        in: query
+        description: Filters to Codes that are searchable or applicable to this comma separated list of Entities
+        schema:
+          type: string
+          default: Organizations,Events,Locations
+      - name: name
+        in: query
+        description: Filters to Codes with names that contain the given input
+        schema:
+          type: string
+          default: Labor
+      - name: parentCodeId
+        in: query
+        description: Filters to Codes that are direct children of the given Code ID
+        schema:
+          type: integer
+          format: int32
+          default: 20513
+      - name: codeType
+        in: query
+        description: Filters to Codes which match the specified Code Type; must be a Code Type available to the API key, as determined by `GET /codeTypes`
+        schema:
+          type: string
+          default: Tag
+      - name: $expand
+        in: query
+        description: 'Optional; comma-delimited list of expansion properties: `supportedEntities`'
+        schema:
+          type: string
+          default: supportedEntities
+      - name: $orderby
+        in: query
+        description: 'Optional; sorts results in ascending (`asc`) or descending (`desc`) order by a comma-delimited list of properties: `dateModified`. Note that a space is required between the property and `asc` or `desc`.'
+        schema:
+          type: string
+          default: dateModified desc
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"items\": [\n    {\n      \"codeId\": 20515,\n      \"parentCodeId\": 20513,\n      \"name\": \"Labor\",\n      \"codeType\": \"Tag\",\n      \"dateCreated\": \"2015-04-05T12:59:00Z\",\n      \"dateModified\": \"2015-05-01T09:59:00Z\",\n      \"supportedEntities\": [\n        {\n          \"name\": \"Organizations\",\n          \"isSearchable\": true,\n          \"isApplicable\": false\n        },\n        {\n          \"name\": \"Events\",\n          \"isSearchable\": true,\n          \"isApplicable\": true\n        },\n        {\n          \"name\": \"Locations\",\n          \"isSearchable\": true,\n          \"isApplicable\": false\n        }\n      ]\n    }\n  ],\n  \"nextPageLink\": \"https://api.securevan.com:443/v4/codes?parentCodeId=20513&$expand=supportedEntities&$top=1&$skip=1\",\n  \"count\": 1\n}"
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        codeId:
+                          type: integer
+                          example: 20515
+                          default: 0
+                        parentCodeId:
+                          type: integer
+                          example: 20513
+                          default: 0
+                        name:
+                          type: string
+                          example: Labor
+                        codeType:
+                          type: string
+                          example: Tag
+                        dateCreated:
+                          type: string
+                          example: '2015-04-05T12:59:00Z'
+                        dateModified:
+                          type: string
+                          example: '2015-05-01T09:59:00Z'
+                        supportedEntities:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                example: Organizations
+                              isSearchable:
+                                type: boolean
+                                example: true
+                                default: true
+                              isApplicable:
+                                type: boolean
+                                example: false
+                                default: true
+                  nextPageLink:
+                    type: string
+                    example: https://api.securevan.com:443/v4/codes?parentCodeId=20513&$expand=supportedEntities&$top=1&$skip=1
+                  count:
+                    type: integer
+                    example: 1
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Codes
+    post:
+      summary: /codes
+      description: Use this endpoint to create a new Code in the current context.
+      operationId: post-codes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                parentCodeId:
+                  type: integer
+                  format: int32
+                name:
+                  type: string
+                codeType:
+                  type: string
+                  description: Defaults to `SourceCode` if not specified
+                  enum:
+                  - SourceCode
+                  - Tag
+                supportedEntities:
+                  type: array
+                  description: Only relevant for `codeType` `Tag`. Use `isSourceCodeApplicable` for `SourceCode`.
+                  items:
+                    properties:
+                      name:
+                        type: string
+                        default: Events
+                      isSearchable:
+                        type: boolean
+                        default: true
+                      isApplicable:
+                        type: boolean
+                        default: true
+                    type: object
+                isSourceCodeApplicable:
+                  type: boolean
+                  description: Only relevant for `codeType` `SourceCode`
+                description:
+                  type: string
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Codes
+    put:
+      summary: /codes
+      description: 'Use this endpoint to update the editable properties of a set of existing Codes. For example, you could use this to change the names of Codes, to change several Codes’ parents, or to add or remove the Entities the Codes support.
+
+
+        When constructing your request, note that all editable properties must be specified otherwise it is assumed they should be removed or set to null. For example, if the `supportedEntities` property is set to `null` or `[]` (an empty array) in JSON specifying a Code, all supported Entities are removed from that Code.'
+      operationId: put-codes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codes:
+                  type: array
+                  items:
+                    properties:
+                      parentCodeId:
+                        type: integer
+                        default: 1002316
+                        format: int32
+                      name:
+                        type: string
+                        default: Labor
+                      description:
+                        type: string
+                        default: The tag for describing Labor
+                      supportedEntities:
+                        type: array
+                        items:
+                          properties:
+                            name:
+                              type: string
+                              default: Events
+                            isSearchable:
+                              type: boolean
+                              default: true
+                            isApplicable:
+                              type: boolean
+                              default: true
+                          type: object
+                      codeType:
+                        type: string
+                        default: Tag
+                    type: object
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n        \"codeId\": 1020112,\n        \"message\": \"Forbidden\"\n    },\n    {\n        \"codeId\": 1020113,\n        \"message\": \"Completed\"\n    }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    codeId:
+                      type: integer
+                      example: 1020112
+                      default: 0
+                    message:
+                      type: string
+                      example: Forbidden
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - Codes
+    delete:
+      summary: /codes
+      description: 'Use this endpoint to delete a list of existing Codes. Use with caution as this this action is *irreversible*.
+
+
+        Codes can only be deleted if they are not applied to any Entity in any context in which the Code exists. *NB*: you may not have access to every context in which the Code exists.
+
+
+        The endpoint responds with HTTP Status Code `200 OK` and an array of results, one for each code deleted or attempted. Each object will contain the ID of the Code, if successfully updated, and any warning or error messages for that Code.'
+      operationId: delete-codes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codeIds:
+                  type: array
+                  description: Accepts a comma-separated array of codeIds
+                  default:
+                  - 1020112
+                  - 1020113
+                  items:
+                    type: integer
+                    format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n      \"1020112\": \"This code does not exist or you do not have access to it\"\n  },\n  {\n      \"1020113\": \"Completed\"\n  }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '1020112':
+                      type: string
+                      example: This code does not exist or you do not have access to it
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Codes
+  /codes/batch:
+    post:
+      summary: /codes/batch
+      description: Use this endpoint to create a batch of new Codes in the current context.
+      operationId: codes-batch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codes:
+                  type: array
+                  description: Required; An array of zero or more Code objects for batch operations.
+                  items:
+                    properties:
+                      parentCodeId:
+                        type: integer
+                        default: 1002316
+                        format: int32
+                      name:
+                        type: string
+                        default: Labor
+                      description:
+                        type: string
+                        default: The tag for describing Labor
+                      supportedEntities:
+                        type: array
+                        items:
+                          properties:
+                            name:
+                              type: string
+                              default: Events
+                            isSearchable:
+                              type: boolean
+                              default: true
+                            isApplicable:
+                              type: boolean
+                              default: true
+                          type: object
+                      codeType:
+                        type: string
+                        default: Tag
+                    type: object
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n        \"codeId\": 1020112,\n        \"message\": \"Completed\"\n    },\n    {\n        \"codeId\": 1020113,\n        \"message\": \"Completed\"\n    }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    codeId:
+                      type: integer
+                      example: 1020112
+                      default: 0
+                    message:
+                      type: string
+                      example: Completed
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - Codes
+  /codes/extendedSourceCodes:
+    get:
+      summary: /codes/extendedSourceCodes
+      description: Use this endpoint to find Extended Source Codes available in the current context.
+      operationId: codesextendedsourcecodes
+      parameters:
+      - name: vanId
+        in: query
+        description: Optional; Filter extended source codes to those associated with the given contact.
+        schema:
+          type: integer
+          format: int32
+          default: 100476252
+      - name: extendedSourceCodeName
+        in: query
+        description: Optional; Filters to Extended Source Codes with names that contain the given input
+        schema:
+          type: string
+          default: AXY1
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"items\": [\n  {\n    \"extendedSourceCodeId\": 18,\n    \"extendedSourceCodeName\": \"AXY10892323IDFEN23819\",\n    \"createdBy\": 459,\n    \"dateCreated\": \"2020-04-28T16:13:00Z\",\n    \"modifiedBy\": null,\n    \"dateModified\": null\n  },\n  ],\n  \"nextPageLink\": null,\n  \"count\": 1\n}"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Codes
+  /codes/supportedEntities:
+    get:
+      summary: /codes/supportedEntities
+      description: 'Retrieve Code Supported Entities
+
+
+        *Description*
+
+
+        `ActivistCodes` — Tags can be applied to Activist Codes in the VAN UI
+
+        `Contacts` — Contacts are synonymous with People
+
+        `Events` — Tags can be applied to Events
+
+        `Locations` — Tags can be applied to Locations
+
+        `Organizations` — Tags can be applied to Organizations
+
+        `SurveyQuestions` — Tags can be applied to Survey Questions in the VAN UI
+
+
+        This endpoint does *not* have relevance for Source Codes, as Source Codes are always applicable to a fixed list of Entities; see the Codes Overview for more details.'
+      operationId: codes-supportedentities
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  \"Contacts\",\n  \"Events\",\n  \"Locations\"\n]"
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: Contacts
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Codes
+  /codes/{codeId}:
+    get:
+      summary: /codes/{codeId}
+      description: Use this endpoint to retrieve an existing Code and its metadata
+      operationId: codes-codeid
+      parameters:
+      - name: codeId
+        in: path
+        description: Required; Unique identifier of an existing Code
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: $expand
+        in: query
+        description: 'Valid `$expand` sections differ by `codeType`. `supportedEntities` is valid for all types. The following are only valid for `SourceCode`: `generalLedgerFund`, `costCenter`, `revenueStream`, `directResponsePlan`, and `mailMergeTemplate`.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"codeId\": 1085455,\n  \"parentCodeId\": 1000479,\n  \"name\": \"API Functional Test Source Code\",\n  \"description\": \"Source Code for API Functional Tests\",\n  \"codePath\": \"API Source Code 1/API Functional Test Source Code\",\n  \"createdByName\": \"A user\",\n  \"dateCreated\": \"2022-03-01T12:00:00Z\",\n  \"supportedEntities\": [\n    {\n      \"name\": \"Contacts\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"Events\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"Contributions\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"RecurringContributions\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"Pledges\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"OnlineForms\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"ContactsDisbursements\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"ActionPlans\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"DirectResponsePlanSubSegments\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    },\n    {\n      \"name\": \"PlannedGift\",\n      \"isSearchable\": true,\n      \"isApplicable\": true\n    }\n  ],\n  \"codeType\": \"SourceCode\",\n  \"campaign\": {\n    \"campaignId\": 2541,\n    \"name\": \"ATC Campaign\",\n    \"campaignType\": {\n      \"campaignTypeId\": 211,\n      \"name\": \"Auto\"\n    },\n    \"campaignDisplayName\": \"Auto: ATC Campaign\",\n    \"status\": \"Active\",\n    \"contents\": null\n  },\n  \"contactType\": {\n    \"contactTypeId\": 82,\n    \"channelTypeName\": \"Mail\",\n    \"name\": \"Direct Mail\"\n  },\n  \"dateModified\": \"2022-03-01T12:00:00Z\",\n  \"revenueStreamId\": 179,\n  \"generalLedgerFund\": {\n    \"generalLedgerFundId\": 68,\n    \"name\": \"API General Ledger Fund\",\n    \"description\": \"API General Ledger Fund for Source Code\",\n    \"isActive\": true\n  },\n  \"costCenter\": {\n    \"costCenterId\": 47,\n    \"name\": \"API Cost Center for Tests\",\n    \"description\": \"Cost Center for API Tests (Source Codes)\",\n    \"isActive\": true\n  },\n  \"revenueStream\": {\n    \"revenueStreamId\": 179,\n    \"name\": \"API Revenue Stream for Source Codes\",\n    \"type\": {\n      \"revenueStreamTypeID\": 449,\n      \"name\": \"API Revenue Stream Type for Source Codes\"\n    },\n    \"status\": \"Active\"\n  },\n  \"mailMergeTemplate\": {\n    \"mailMergeTemplateId\": 337,\n    \"name\": \"API Mail Merge Template for Tests\"\n  },\n  \"isSourceCodeApplicable\": true\n}"
+              schema:
+                oneOf:
+                - type: object
+                  properties:
+                    codeId:
+                      type: integer
+                      example: 20548
+                      default: 0
+                    parentCodeId: {}
+                    name:
+                      type: string
+                      example: Digital ads
+                    description:
+                      type: string
+                      example: Used to mark people and contributions retrieved because of digital ad campaigns
+                    codeType:
+                      type: string
+                      example: SourceCode
+                    dateCreated:
+                      type: string
+                      example: '2017-10-05T12:59:00Z'
+                    dateModified:
+                      type: string
+                      example: '2017-10-08T12:00:00Z'
+                    supportedEntities: {}
+                - type: object
+                  properties:
+                    codeId:
+                      type: integer
+                      example: 1085455
+                      default: 0
+                    parentCodeId:
+                      type: integer
+                      example: 1000479
+                      default: 0
+                    name:
+                      type: string
+                      example: API Functional Test Source Code
+                    description:
+                      type: string
+                      example: Source Code for API Functional Tests
+                    codePath:
+                      type: string
+                      example: API Source Code 1/API Functional Test Source Code
+                    createdByName:
+                      type: string
+                      example: A user
+                    dateCreated:
+                      type: string
+                      example: '2022-03-01T12:00:00Z'
+                    supportedEntities:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: Contacts
+                          isSearchable:
+                            type: boolean
+                            example: true
+                            default: true
+                          isApplicable:
+                            type: boolean
+                            example: true
+                            default: true
+                    codeType:
+                      type: string
+                      example: SourceCode
+                    campaign:
+                      type: object
+                      properties:
+                        campaignId:
+                          type: integer
+                          example: 2541
+                          default: 0
+                        name:
+                          type: string
+                          example: ATC Campaign
+                        campaignType:
+                          type: object
+                          properties:
+                            campaignTypeId:
+                              type: integer
+                              example: 211
+                              default: 0
+                            name:
+                              type: string
+                              example: Auto
+                        campaignDisplayName:
+                          type: string
+                          example: 'Auto: ATC Campaign'
+                        status:
+                          type: string
+                          example: Active
+                        contents: {}
+                    contactType:
+                      type: object
+                      properties:
+                        contactTypeId:
+                          type: integer
+                          example: 82
+                          default: 0
+                        channelTypeName:
+                          type: string
+                          example: Mail
+                        name:
+                          type: string
+                          example: Direct Mail
+                    dateModified:
+                      type: string
+                      example: '2022-03-01T12:00:00Z'
+                    revenueStreamId:
+                      type: integer
+                      example: 179
+                      default: 0
+                    generalLedgerFund:
+                      type: object
+                      properties:
+                        generalLedgerFundId:
+                          type: integer
+                          example: 68
+                          default: 0
+                        name:
+                          type: string
+                          example: API General Ledger Fund
+                        description:
+                          type: string
+                          example: API General Ledger Fund for Source Code
+                        isActive:
+                          type: boolean
+                          example: true
+                          default: true
+                    costCenter:
+                      type: object
+                      properties:
+                        costCenterId:
+                          type: integer
+                          example: 47
+                          default: 0
+                        name:
+                          type: string
+                          example: API Cost Center for Tests
+                        description:
+                          type: string
+                          example: Cost Center for API Tests (Source Codes)
+                        isActive:
+                          type: boolean
+                          example: true
+                          default: true
+                    revenueStream:
+                      type: object
+                      properties:
+                        revenueStreamId:
+                          type: integer
+                          example: 179
+                          default: 0
+                        name:
+                          type: string
+                          example: API Revenue Stream for Source Codes
+                        type:
+                          type: object
+                          properties:
+                            revenueStreamTypeID:
+                              type: integer
+                              example: 449
+                              default: 0
+                            name:
+                              type: string
+                              example: API Revenue Stream Type for Source Codes
+                        status:
+                          type: string
+                          example: Active
+                    mailMergeTemplate:
+                      type: object
+                      properties:
+                        mailMergeTemplateId:
+                          type: integer
+                          example: 337
+                          default: 0
+                        name:
+                          type: string
+                          example: API Mail Merge Template for Tests
+                    isSourceCodeApplicable:
+                      type: boolean
+                      example: true
+                      default: true
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - Codes
+    patch:
+      summary: /codes/{codeId}
+      description: Update editable properties of a Source Code or Tag. This is a JSON Patch endpoint.
+      operationId: patch-codes-codeid
+      parameters:
+      - name: codeId
+        in: path
+        description: Unique identifier of an existing Code
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - RAW_BODY
+              properties:
+                RAW_BODY:
+                  type: array
+                  description: An ordered list of operations to perform on the given Code.
+                  items:
+                    properties:
+                      op:
+                        type: string
+                        description: The operation to perform on the target document
+                        enum:
+                        - add
+                        - remove
+                        - replace
+                        - copy
+                        - move
+                        - test
+                      path:
+                        type: string
+                        description: A JSON Pointer to the specific property in the document to operate on. Uses [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901/).
+                      value:
+                        type: string
+                        description: Value of the same type as `path`. Required for `add`, `replace`, and `test` operations.
+                        format: json
+                      from:
+                        type: string
+                        description: A JSON Pointer to a specific property in the document. Required for `copy` and `move` operations.
+                    required:
+                    - op
+                    - path
+                    type: object
+            examples:
+              Set parentCodeId and change name:
+                value:
+                - value: 1000314
+                  path: /parentcodeid
+                  op: add
+                - value: New Tag Name
+                  path: /name
+                  op: replace
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Codes
+    put:
+      summary: /codes/{codeId}
+      description: 'Use this endpoint to update the editable properties of an existing Code. For example, you could use this to change the name of a Code, to change a Code’s parent, or to add or remove the Entities this Code supports.
+
+
+        When constructing your request, note that all editable properties must be specified otherwise it is assumed they should be removed or set to null. For example, if the `supportedEntities` property is set to `null` or `[]` (an empty array) in the request, all supported Entities are removed from the Code.
+
+
+        Not all properties can be updated using this endpoint. If you need to update all metadata or are unable to populate all existing properties as described above, consider using the PATCH endpoint.'
+      operationId: put-codes-codeid
+      parameters:
+      - name: codeId
+        in: path
+        description: Required; Unique identifier for an editable Code
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - codeId
+              - name
+              properties:
+                codeId:
+                  type: integer
+                  format: int32
+                parentCodeId:
+                  type: integer
+                  format: int32
+                name:
+                  type: string
+                codeType:
+                  type: string
+                  description: This property cannot change
+                  enum:
+                  - Tag
+                  - SourceCode
+                supportedEntities:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      default: Events
+                    isSearchable:
+                      type: boolean
+                      default: true
+                    isApplicable:
+                      type: boolean
+                      default: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]"
+      deprecated: false
+      tags:
+      - Codes
+    delete:
+      summary: /codes/{codeId}
+      description: 'Use this endpoint to delete an existing Code. Use with caution as this this action is *irreversible*.
+
+
+        Codes can only be deleted if they are not applied to any Entity in any context in which the Code exists. *NB*: you may not have access to every context in which the Code exists.
+
+
+        If the specified Code does not exist, this endpoint will return an error with HTTP Status Code `404 Not Found`.
+
+
+        If the specified Code does exist but is not deletable, this endpoint will return an error with HTTP Status Code `403 Forbidden`.
+
+
+        If successful, the endpoint responds with HTTP Status Code `204 No Content` and an empty response body.'
+      operationId: delete-codes-codeid
+      parameters:
+      - name: codeId
+        in: path
+        description: Required; Unique identifier for an editable Code
+        schema:
+          type: integer
+          format: int32
+          default: 20547
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '403':
+          description: '403'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - Codes
+components:
+  securitySchemes:
+    sec0:
+      type: http
+      scheme: basic
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.everyaction.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.everyaction.com/reference/activistcodes-activistcodeid.md
+  - https://docs.everyaction.com/reference/activistcodes.md
+  - https://docs.everyaction.com/reference/ballotrequesttypes-ballotrequesttypeid.md
+  - https://docs.everyaction.com/reference/ballotrequesttypes.md
+  - https://docs.everyaction.com/reference/ballotreturnstatuses-ballotreturnstatusid.md
+  - https://docs.everyaction.com/reference/ballotreturnstatuses.md
+  - https://docs.everyaction.com/reference/ballottypes-ballottypeid.md
+  - https://docs.everyaction.com/reference/ballottypes.md
+  - https://docs.everyaction.com/reference/bargainingunits-bargainingunitid.md
+  - https://docs.everyaction.com/reference/bargainingunits.md
+  - https://docs.everyaction.com/reference/bulkimportjobs-jobid.md
+  - https://docs.everyaction.com/reference/bulkimportjobs-resources.md
+  - https://docs.everyaction.com/reference/bulkimportjobs.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes-mappingtypename-fieldname-values.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes-mappingtypename.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes.md
+  - https://docs.everyaction.com/reference/canvassfilereqeusts-canvassfilerequestid.md
+  - https://docs.everyaction.com/reference/canvassfilerequests.md
+  - https://docs.everyaction.com/reference/canvassresponses-contacttypes.md
+  - https://docs.everyaction.com/reference/canvassresponses-inputtypes.md
+  - https://docs.everyaction.com/reference/canvassresponses-resultcodes.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-changetypes-resourcetype.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-exportjobid.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-fields-resourcetype.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-resources.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs.md
+  - https://docs.everyaction.com/reference/codes-batch.md
+  - https://docs.everyaction.com/reference/codes-codeid.md
+  - https://docs.everyaction.com/reference/codes-supportedentities.md
+  - https://docs.everyaction.com/reference/codesextendedsourcecodes.md
+  - https://docs.everyaction.com/reference/codetypes.md
+  - https://docs.everyaction.com/reference/commitments-commitmentid.md
+  - https://docs.everyaction.com/reference/commitments-recurringpayments.md
+  - https://docs.everyaction.com/reference/commitments.md
+  - https://docs.everyaction.com/reference/contributions-alternateidtype-alternateid.md
+  - https://docs.everyaction.com/reference/contributions-attribution-types.md
+  - https://docs.everyaction.com/reference/contributions-contributionid-adjustments.md
+  - https://docs.everyaction.com/reference/contributions-contributionid-attributions-vanid.md
+  - https://docs.everyaction.com/reference/contributions-contributionid.md
+  - https://docs.everyaction.com/reference/contributions-payments.md
+  - https://docs.everyaction.com/reference/contributionsrecentcontributions.md
+  - https://docs.everyaction.com/reference/create-surveyquestion.md
+  - https://docs.everyaction.com/reference/customfields-customfieldid.md
+  - https://docs.everyaction.com/reference/customfields.md
+  - https://docs.everyaction.com/reference/delete-codes-codeid.md
+  - https://docs.everyaction.com/reference/delete-codes.md
+  - https://docs.everyaction.com/reference/delete-contributions-contributionid-attributions-vanid.md
+  - https://docs.everyaction.com/reference/delete-events-eventid.md
+  - https://docs.everyaction.com/reference/delete-people-vanid-myactivistflags.md
+  - https://docs.everyaction.com/reference/departments-departmentid.md
+  - https://docs.everyaction.com/reference/designations-designationid.md
+  - https://docs.everyaction.com/reference/disbursements-disbursementid.md
+  - https://docs.everyaction.com/reference/disbursementsrecentdisbursements.md
+  - https://docs.everyaction.com/reference/districtfields-districtfieldid.md
+  - https://docs.everyaction.com/reference/districtfields.md
+  - https://docs.everyaction.com/reference/earlyvotefields.md
+  - https://docs.everyaction.com/reference/earlyvotefieldsearlyvotefieldid.md
+  - https://docs.everyaction.com/reference/echoes.md
+  - https://docs.everyaction.com/reference/email-message-emailid.md
+  - https://docs.everyaction.com/reference/email-messages.md
+  - https://docs.everyaction.com/reference/employers-employerid-bargainingunits-bargainingunitid-jobclassesjobclassid.md
+  - https://docs.everyaction.com/reference/employers-employerid-bargainingunits-bargainingunitid.md
+  - https://docs.everyaction.com/reference/employers-employerid-deparments.md
+  - https://docs.everyaction.com/reference/employers-employerid-shifttypes-shifttypeid.md
+  - https://docs.everyaction.com/reference/employers-employerid-worksites.md
+  - https://docs.everyaction.com/reference/employers-employerid.md
+  - https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitiddelete.md
+  - https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitidjobclassesjobclassiddelete.md
+  - https://docs.everyaction.com/reference/employersemployeridshifttypesshifttypeiddelete.md
+  - https://docs.everyaction.com/reference/events-eventid-shifts.md
+  - https://docs.everyaction.com/reference/events-eventid.md
+  - https://docs.everyaction.com/reference/events-types-eventtypeid.md
+  - https://docs.everyaction.com/reference/events-types.md
+  - https://docs.everyaction.com/reference/exportjobs.md
+  - https://docs.everyaction.com/reference/exportjobsexportjobid.md
+  - https://docs.everyaction.com/reference/exportjobtypes.md
+  - https://docs.everyaction.com/reference/fileloadingjobs.md
+  - https://docs.everyaction.com/reference/fileloadingjobsjobid.md
+  - https://docs.everyaction.com/reference/fileloadingjobsjobidstats.md
+  - https://docs.everyaction.com/reference/financialbatches-1.md
+  - https://docs.everyaction.com/reference/financialbatches.md
+  - https://docs.everyaction.com/reference/financialbatchesfinancialbatchid.md
+  - https://docs.everyaction.com/reference/find-by-phone.md
+  - https://docs.everyaction.com/reference/folders-1.md
+  - https://docs.everyaction.com/reference/foldersfolderid.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregions.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionid.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionidrefresh.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsrefresh.md
+  - https://docs.everyaction.com/reference/get-campaign-by-id.md
+  - https://docs.everyaction.com/reference/get-campaigns.md
+  - https://docs.everyaction.com/reference/get-codes.md
+  - https://docs.everyaction.com/reference/get-departments.md
+  - https://docs.everyaction.com/reference/get-designations.md
+  - https://docs.everyaction.com/reference/get-employers.md
+  - https://docs.everyaction.com/reference/get-events.md
+  - https://docs.everyaction.com/reference/get-people-personid-type-personid.md
+  - https://docs.everyaction.com/reference/get-people-vanid.md
+  - https://docs.everyaction.com/reference/get-people.md
+  - https://docs.everyaction.com/reference/introspection.md
+  - https://docs.everyaction.com/reference/jobclasses-1.md
+  - https://docs.everyaction.com/reference/jobclasses.md
+  - https://docs.everyaction.com/reference/jobclassesjobclassid.md
+  - https://docs.everyaction.com/reference/locations-1.md
+  - https://docs.everyaction.com/reference/locations-2.md
+  - https://docs.everyaction.com/reference/locationsfindorcreate.md
+  - https://docs.everyaction.com/reference/locationslocationid-1.md
+  - https://docs.everyaction.com/reference/locationslocationid.md
+  - https://docs.everyaction.com/reference/memberstatuses-1.md
+  - https://docs.everyaction.com/reference/memberstatuses.md
+  - https://docs.everyaction.com/reference/memberstatusesmemberstatusid.md
+  - https://docs.everyaction.com/reference/minivanexports.md
+  - https://docs.everyaction.com/reference/minivanexportsminivanexportid.md
+  - https://docs.everyaction.com/reference/notescategories.md
+  - https://docs.everyaction.com/reference/notescategoriesnotecategoryid.md
+  - https://docs.everyaction.com/reference/notescategorytypes.md
+  - https://docs.everyaction.com/reference/onlineactionsforms.md
+  - https://docs.everyaction.com/reference/onlineactionsformsformtrackingid.md
+  - https://docs.everyaction.com/reference/patch-codes-codeid.md
+  - https://docs.everyaction.com/reference/patch-employers-employerid.md
+  - https://docs.everyaction.com/reference/patch-events-eventid.md
+  - https://docs.everyaction.com/reference/people-find.md
+  - https://docs.everyaction.com/reference/people-findorcreate.md
+  - https://docs.everyaction.com/reference/people-persoid-type-personid.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-canvassresponses.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-codes-codeid.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-codes.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-disclosurefieldvalues.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-notes.md
+  - https://docs.everyaction.com/reference/people-vanid-activistcodes.md
+  - https://docs.everyaction.com/reference/people-vanid-canvassresponses.md
+  - https://docs.everyaction.com/reference/people-vanid-codes-codeid.md
+  - https://docs.everyaction.com/reference/people-vanid-codes.md
+  - https://docs.everyaction.com/reference/people-vanid-delete.md
+  - https://docs.everyaction.com/reference/people-vanid-disclosurefieldvalues.md
+  - https://docs.everyaction.com/reference/people-vanid-membership.md
+  - https://docs.everyaction.com/reference/people-vanid-mergeinto.md
+  - https://docs.everyaction.com/reference/people-vanid-myactivistflags.md
+  - https://docs.everyaction.com/reference/people-vanid-names.md
+  - https://docs.everyaction.com/reference/people-vanid-notes-noteid.md
+  - https://docs.everyaction.com/reference/people-vanid-notes.md
+  - https://docs.everyaction.com/reference/people-vanid-relationships.md
+  - https://docs.everyaction.com/reference/people-vanid.md
+  - https://docs.everyaction.com/reference/peoplepersonidcanvassresponsesreferenceid.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsescanvassresponseid-copy.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsescanvassresponseid.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsesreferenceid.md
+  - https://docs.everyaction.com/reference/post-bargainingunits.md
+  - https://docs.everyaction.com/reference/post-codes.md
+  - https://docs.everyaction.com/reference/post-contributions.md
+  - https://docs.everyaction.com/reference/post-disbursements.md
+  - https://docs.everyaction.com/reference/post-employers.md
+  - https://docs.everyaction.com/reference/post-events.md
+  - https://docs.everyaction.com/reference/post-people-vanid-notes.md
+  - https://docs.everyaction.com/reference/printedlists.md
+  - https://docs.everyaction.com/reference/printedlistsprintedlistnumber.md
+  - https://docs.everyaction.com/reference/pronouns.md
+  - https://docs.everyaction.com/reference/put-codes-codeid.md
+  - https://docs.everyaction.com/reference/put-codes.md
+  - https://docs.everyaction.com/reference/put-events-eventid.md
+  - https://docs.everyaction.com/reference/relationships-1.md
+  - https://docs.everyaction.com/reference/reportedethnicities.md
+  - https://docs.everyaction.com/reference/reportedgenders.md
+  - https://docs.everyaction.com/reference/reportedlanguagepreferences.md
+  - https://docs.everyaction.com/reference/reportedraces.md
+  - https://docs.everyaction.com/reference/reportedsexualorientations.md
+  - https://docs.everyaction.com/reference/savedlists.md
+  - https://docs.everyaction.com/reference/savedlistssavedlistid.md
+  - https://docs.everyaction.com/reference/scheduletypes-1.md
+  - https://docs.everyaction.com/reference/scheduletypes.md
+  - https://docs.everyaction.com/reference/scheduletypesscheduletypeid.md
+  - https://docs.everyaction.com/reference/scores-1.md
+  - https://docs.everyaction.com/reference/scoresscoreid.md
+  - https://docs.everyaction.com/reference/scoresscoreidcommitteeaccess.md
+  - https://docs.everyaction.com/reference/scoreupdates.md
+  - https://docs.everyaction.com/reference/scoreupdatesscoreupdateid-1.md
+  - https://docs.everyaction.com/reference/scoreupdatesscoreupdateid.md
+  - https://docs.everyaction.com/reference/shifttypes-1.md
+  - https://docs.everyaction.com/reference/shifttypes.md
+  - https://docs.everyaction.com/reference/shifttypesshifttypeid.md
+  - https://docs.everyaction.com/reference/signups-1.md
+  - https://docs.everyaction.com/reference/signups-2.md
+  - https://docs.everyaction.com/reference/signupseventsignupid-1.md
+  - https://docs.everyaction.com/reference/signupseventsignupid-2.md
+  - https://docs.everyaction.com/reference/signupseventsignupid.md
+  - https://docs.everyaction.com/reference/signupsstatuses.md
+  - https://docs.everyaction.com/reference/smssync.md
+  - https://docs.everyaction.com/reference/stories-1.md
+  - https://docs.everyaction.com/reference/storiesstoryid.md
+  - https://docs.everyaction.com/reference/supportergroups-1.md
+  - https://docs.everyaction.com/reference/supportergroups.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupid-1.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupid.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupidpeoplevanid-1.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupidpeoplevanid.md
+  - https://docs.everyaction.com/reference/surveyquestions.md
+  - https://docs.everyaction.com/reference/surveyquestionssurveyquestionid-1.md
+  - https://docs.everyaction.com/reference/surveyquestionssurveyquestionid.md
+  - https://docs.everyaction.com/reference/targetexportjobs.md
+  - https://docs.everyaction.com/reference/targetexportjobsexportjobid.md
+  - https://docs.everyaction.com/reference/targets-1.md
+  - https://docs.everyaction.com/reference/targetstargetid.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues-1.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues-2.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues.md
+  - https://docs.everyaction.com/reference/voterregistrationbatches-1.md
+  - https://docs.everyaction.com/reference/voterregistrationbatches.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesbatchid.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesbatchidpeople.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesprogramtypes.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesregistrationforms.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesstatesstatesupportedfields.md
+  - https://docs.everyaction.com/reference/worksites-1.md
+  - https://docs.everyaction.com/reference/worksitesworksiteid.md
+  - https://docs.everyaction.com/reference/worksitesworksiteiddelete.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidput.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareas.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareasput.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareasworkareaiddelete.md
+  merge:
+    pages: 219
+    deduped: 218
+    conflicts_kept_first: 0

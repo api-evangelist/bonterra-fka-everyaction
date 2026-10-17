@@ -153,38 +153,998 @@ common:
     the artifact-type surfaces with a server that does not exist.'
 
 apis:
-- name: EveryAction (NGP VAN) API
-  description: The EveryAction 8 (EA8) / NGP VAN REST API for nonprofit and campaign CRM data — people matching, contributions, recurring commitments,
-    disbursements, events, survey questions, activist codes, canvass responses, bulk import and file-loading jobs, voter registration, and MiniVAN
-    exports.
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-activistcodes-api
+  name: Bonterra (fka EveryAction) Activist Codes API
+  description: >-
+    The ActivistCodes API from Bonterra (fka EveryAction) — 2 operation(s) for activistcodes.
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
-  - CRM
-  - Non-Profit
-  - Fundraising
-  - Advocacy
-  - Political
-  tags_raw:
-  - CRM
-  - Nonprofit
-  - Fundraising
-  - Advocacy
-  - Political
+  - ActivistCodes
   properties:
-  - url: openapi/bonterra-fka-everyaction-everyaction-8-openapi.yml
-    type: OpenAPI
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-activistcodes-api-openapi.yml
   - type: Authentication
     url: authentication/bonterra-fka-everyaction-authentication.yml
   - type: Conventions
     url: conventions/bonterra-fka-everyaction-conventions.yml
   - type: X-MCPServerCandidate
     url: mcp/bonterra-fka-everyaction-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
-      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
-      the artifact-type surfaces with a server that does not exist.'
-  aid: bonterra-fka-everyaction:everyaction-ngp-van-api
-
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-apikeyprofiles-api
+  name: Bonterra (fka EveryAction) API Key Profiles API
+  description: >-
+    The ApiKeyProfiles API from Bonterra (fka EveryAction) — 1 operation(s) for apikeyprofiles.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ApiKeyProfiles
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-apikeyprofiles-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-ballotrequesttypes-api
+  name: Bonterra (fka EveryAction) Ballot Request Types API
+  description: >-
+    The BallotRequestTypes API from Bonterra (fka EveryAction) — 2 operation(s) for ballotrequesttypes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - BallotRequestTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-ballotrequesttypes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-ballotreturnstatuses-api
+  name: Bonterra (fka EveryAction) Ballot Return Statuses API
+  description: >-
+    The BallotReturnStatuses API from Bonterra (fka EveryAction) — 2 operation(s) for ballotreturnstatuses.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - BallotReturnStatuses
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-ballotreturnstatuses-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-ballottypes-api
+  name: Bonterra (fka EveryAction) Ballot Types API
+  description: The BallotTypes API from Bonterra (fka EveryAction) — 2 operation(s) for ballottypes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - BallotTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-ballottypes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-bargainingunits-api
+  name: Bonterra (fka EveryAction) Bargaining Units API
+  description: >-
+    The BargainingUnits API from Bonterra (fka EveryAction) — 2 operation(s) for bargainingunits.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - BargainingUnits
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-bargainingunits-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-bulkimportjobs-api
+  name: Bonterra (fka EveryAction) Bulk Import Jobs API
+  description: >-
+    The BulkImportJobs API from Bonterra (fka EveryAction) — 3 operation(s) for bulkimportjobs.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - BulkImportJobs
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-bulkimportjobs-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-bulkimportmappingtypes-api
+  name: Bonterra (fka EveryAction) Bulk Import Mapping Types API
+  description: >-
+    The BulkImportMappingTypes API from Bonterra (fka EveryAction) — 3 operation(s) for bulkimportmappingtypes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - BulkImportMappingTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-bulkimportmappingtypes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-campaigns-api
+  name: Bonterra (fka EveryAction) Campaigns API
+  description: The Campaigns API from Bonterra (fka EveryAction) — 2 operation(s) for campaigns.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-campaigns-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-canvassfilerequests-api
+  name: Bonterra (fka EveryAction) Canvass File Requests API
+  description: >-
+    The CanvassFileRequests API from Bonterra (fka EveryAction) — 2 operation(s) for canvassfilerequests.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - CanvassFileRequests
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-canvassfilerequests-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-canvassresponses-api
+  name: Bonterra (fka EveryAction) Canvass Responses API
+  description: >-
+    The CanvassResponses API from Bonterra (fka EveryAction) — 3 operation(s) for canvassresponses.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - CanvassResponses
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-canvassresponses-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-changedentityexportjobs-api
+  name: Bonterra (fka EveryAction) Changed Entity Export Jobs API
+  description: >-
+    The ChangedEntityExportJobs API from Bonterra (fka EveryAction) — 5 operation(s) for changedentityexportjobs.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ChangedEntityExportJobs
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-changedentityexportjobs-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-codes-api
+  name: Bonterra (fka EveryAction) Codes API
+  description: The Codes API from Bonterra (fka EveryAction) — 5 operation(s) for codes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Codes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-codes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-commitments-api
+  name: Bonterra (fka EveryAction) Commitments API
+  description: The Commitments API from Bonterra (fka EveryAction) — 3 operation(s) for commitments.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Commitments
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-commitments-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-contributions-api
+  name: Bonterra (fka EveryAction) Contributions API
+  description: >-
+    The Contributions API from Bonterra (fka EveryAction) — 8 operation(s) for contributions.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Contributions
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-contributions-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-departments-api
+  name: Bonterra (fka EveryAction) Departments API
+  description: The Departments API from Bonterra (fka EveryAction) — 2 operation(s) for departments.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Departments
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-departments-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-designations-api
+  name: Bonterra (fka EveryAction) Designations API
+  description: The Designations API from Bonterra (fka EveryAction) — 2 operation(s) for designations.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Designations
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-designations-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-disbursements-api
+  name: Bonterra (fka EveryAction) Disbursements API
+  description: >-
+    The Disbursements API from Bonterra (fka EveryAction) — 3 operation(s) for disbursements.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Disbursements
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-disbursements-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-districtfields-api
+  name: Bonterra (fka EveryAction) District Fields API
+  description: >-
+    The DistrictFields API from Bonterra (fka EveryAction) — 2 operation(s) for districtfields.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - DistrictFields
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-districtfields-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-earlyvotefields-api
+  name: Bonterra (fka EveryAction) Early Vote Fields API
+  description: >-
+    The EarlyVoteFields API from Bonterra (fka EveryAction) — 2 operation(s) for earlyvotefields.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - EarlyVoteFields
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-earlyvotefields-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-echoes-api
+  name: Bonterra (fka EveryAction) Echoes API
+  description: The Echoes API from Bonterra (fka EveryAction) — 1 operation(s) for echoes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Echoes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-echoes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-email-api
+  name: Bonterra (fka EveryAction) Email API
+  description: The Email API from Bonterra (fka EveryAction) — 2 operation(s) for email.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Email
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-email-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-employers-api
+  name: Bonterra (fka EveryAction) Employers API
+  description: The Employers API from Bonterra (fka EveryAction) — 7 operation(s) for employers.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Employers
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-employers-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-events-api
+  name: Bonterra (fka EveryAction) Events API
+  description: The Events API from Bonterra (fka EveryAction) — 5 operation(s) for events.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-events-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-exportjobs-api
+  name: Bonterra (fka EveryAction) Export Jobs API
+  description: The ExportJobs API from Bonterra (fka EveryAction) — 2 operation(s) for exportjobs.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ExportJobs
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-exportjobs-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-exportjobtypes-api
+  name: Bonterra (fka EveryAction) Export Job Types API
+  description: >-
+    The ExportJobTypes API from Bonterra (fka EveryAction) — 1 operation(s) for exportjobtypes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ExportJobTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-exportjobtypes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-fileloadingjobs-api
+  name: Bonterra (fka EveryAction) File Loading Jobs API
+  description: >-
+    The FileLoadingJobs API from Bonterra (fka EveryAction) — 3 operation(s) for fileloadingjobs.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - FileLoadingJobs
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-fileloadingjobs-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-financialbatches-api
+  name: Bonterra (fka EveryAction) Financial Batches API
+  description: >-
+    The FinancialBatches API from Bonterra (fka EveryAction) — 2 operation(s) for financialbatches.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - FinancialBatches
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-financialbatches-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-folders-api
+  name: Bonterra (fka EveryAction) Folders API
+  description: The Folders API from Bonterra (fka EveryAction) — 6 operation(s) for folders.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Folders
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-folders-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-jobclasses-api
+  name: Bonterra (fka EveryAction) Job Classes API
+  description: The JobClasses API from Bonterra (fka EveryAction) — 2 operation(s) for jobclasses.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - JobClasses
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-jobclasses-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-locations-api
+  name: Bonterra (fka EveryAction) Locations API
+  description: The Locations API from Bonterra (fka EveryAction) — 3 operation(s) for locations.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-locations-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-memberstatuses-api
+  name: Bonterra (fka EveryAction) Member Statuses API
+  description: >-
+    The MemberStatuses API from Bonterra (fka EveryAction) — 2 operation(s) for memberstatuses.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - MemberStatuses
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-memberstatuses-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-minivanexports-api
+  name: Bonterra (fka EveryAction) Minivan Exports API
+  description: >-
+    The MinivanExports API from Bonterra (fka EveryAction) — 2 operation(s) for minivanexports.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - MinivanExports
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-minivanexports-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-notes-api
+  name: Bonterra (fka EveryAction) Notes API
+  description: The Notes API from Bonterra (fka EveryAction) — 3 operation(s) for notes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Notes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-notes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-onlineactionsforms-api
+  name: Bonterra (fka EveryAction) Online Actions Forms API
+  description: >-
+    The OnlineActionsForms API from Bonterra (fka EveryAction) — 2 operation(s) for onlineactionsforms.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - OnlineActionsForms
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-onlineactionsforms-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-people-api
+  name: Bonterra (fka EveryAction) People API
+  description: The People API from Bonterra (fka EveryAction) — 27 operation(s) for people.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - People
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-people-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-printedlists-api
+  name: Bonterra (fka EveryAction) Printed Lists API
+  description: The PrintedLists API from Bonterra (fka EveryAction) — 2 operation(s) for printedlists.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - PrintedLists
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-printedlists-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-pronouns-api
+  name: Bonterra (fka EveryAction) Pronouns API
+  description: The Pronouns API from Bonterra (fka EveryAction) — 1 operation(s) for pronouns.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Pronouns
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-pronouns-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-relationships-api
+  name: Bonterra (fka EveryAction) Relationships API
+  description: >-
+    The Relationships API from Bonterra (fka EveryAction) — 1 operation(s) for relationships.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Relationships
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-relationships-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-reportedethnicities-api
+  name: Bonterra (fka EveryAction) Reported Ethnicities API
+  description: >-
+    The ReportedEthnicities API from Bonterra (fka EveryAction) — 1 operation(s) for reportedethnicities.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ReportedEthnicities
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-reportedethnicities-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-reportedgenders-api
+  name: Bonterra (fka EveryAction) Reported Genders API
+  description: >-
+    The ReportedGenders API from Bonterra (fka EveryAction) — 1 operation(s) for reportedgenders.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ReportedGenders
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-reportedgenders-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-reportedlanguagepreferences-api
+  name: Bonterra (fka EveryAction) Reported Language Preferences API
+  description: >-
+    The ReportedLanguagePreferences API from Bonterra (fka EveryAction) — 1 operation(s) for reportedlanguagepreferences.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ReportedLanguagePreferences
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-reportedlanguagepreferences-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-reportedraces-api
+  name: Bonterra (fka EveryAction) Reported Races API
+  description: >-
+    The ReportedRaces API from Bonterra (fka EveryAction) — 1 operation(s) for reportedraces.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ReportedRaces
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-reportedraces-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-reportedsexualorientations-api
+  name: Bonterra (fka EveryAction) Reported Sexual Orientations API
+  description: >-
+    The ReportedSexualOrientations API from Bonterra (fka EveryAction) — 1 operation(s) for reportedsexualorientations.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ReportedSexualOrientations
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-reportedsexualorientations-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-savedlists-api
+  name: Bonterra (fka EveryAction) Saved Lists API
+  description: The SavedLists API from Bonterra (fka EveryAction) — 3 operation(s) for savedlists.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - SavedLists
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-savedlists-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-scheduletypes-api
+  name: Bonterra (fka EveryAction) Schedule Types API
+  description: >-
+    The ScheduleTypes API from Bonterra (fka EveryAction) — 2 operation(s) for scheduletypes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ScheduleTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-scheduletypes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-scores-api
+  name: Bonterra (fka EveryAction) Scores API
+  description: The Scores API from Bonterra (fka EveryAction) — 3 operation(s) for scores.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Scores
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-scores-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-scoreupdates-api
+  name: Bonterra (fka EveryAction) Score Updates API
+  description: The ScoreUpdates API from Bonterra (fka EveryAction) — 2 operation(s) for scoreupdates.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ScoreUpdates
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-scoreupdates-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-shifttypes-api
+  name: Bonterra (fka EveryAction) Shift Types API
+  description: The ShiftTypes API from Bonterra (fka EveryAction) — 2 operation(s) for shifttypes.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - ShiftTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-shifttypes-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-signups-api
+  name: Bonterra (fka EveryAction) Signups API
+  description: The Signups API from Bonterra (fka EveryAction) — 3 operation(s) for signups.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Signups
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-signups-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-stories-api
+  name: Bonterra (fka EveryAction) Stories API
+  description: The Stories API from Bonterra (fka EveryAction) — 2 operation(s) for stories.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Stories
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-stories-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-supportergroups-api
+  name: Bonterra (fka EveryAction) Supporter Groups API
+  description: >-
+    The SupporterGroups API from Bonterra (fka EveryAction) — 3 operation(s) for supportergroups.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - SupporterGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-supportergroups-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-targetexportjobs-api
+  name: Bonterra (fka EveryAction) Target Export Jobs API
+  description: >-
+    The TargetExportJobs API from Bonterra (fka EveryAction) — 2 operation(s) for targetexportjobs.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - TargetExportJobs
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-targetexportjobs-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-targets-api
+  name: Bonterra (fka EveryAction) Targets API
+  description: The Targets API from Bonterra (fka EveryAction) — 2 operation(s) for targets.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Targets
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-targets-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-users-api
+  name: Bonterra (fka EveryAction) Users API
+  description: The Users API from Bonterra (fka EveryAction) — 1 operation(s) for users.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-users-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-voterregistrationbatches-api
+  name: Bonterra (fka EveryAction) Voter Registration Batches API
+  description: >-
+    The VoterRegistrationBatches API from Bonterra (fka EveryAction) — 6 operation(s) for voterregistrationbatches.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - VoterRegistrationBatches
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-voterregistrationbatches-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-worksites-api
+  name: Bonterra (fka EveryAction) Worksites API
+  description: The Worksites API from Bonterra (fka EveryAction) — 4 operation(s) for worksites.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Worksites
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-worksites-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-code-types-api
+  name: Bonterra (fka EveryAction) Code Types API
+  description: The Code Types API from Bonterra (fka EveryAction) — 1 operation(s) for code types.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Code Types
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-code-types-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-custom-fields-api
+  name: Bonterra (fka EveryAction) Custom Fields API
+  description: >-
+    The Custom Fields API from Bonterra (fka EveryAction) — 2 operation(s) for custom fields.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-custom-fields-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
+- aid: bonterra-fka-everyaction:bonterra-fka-everyaction-survey-questions-api
+  name: Bonterra (fka EveryAction) Survey Questions API
+  description: >-
+    The Survey Questions API from Bonterra (fka EveryAction) — 2 operation(s) for survey questions.
+  humanURL: https://docs.everyaction.com/
+  baseURL: https://api.securevan.com/v4/
+  tags:
+  - Survey Questions
+  properties:
+  - type: OpenAPI
+    url: openapi/bonterra-fka-everyaction-survey-questions-api-openapi.yml
+  - type: Authentication
+    url: authentication/bonterra-fka-everyaction-authentication.yml
+  - type: Conventions
+    url: conventions/bonterra-fka-everyaction-conventions.yml
+  - type: X-MCPServerCandidate
+    url: mcp/bonterra-fka-everyaction-mcp.yml
 x-enrichment:
   date: '2026-07-19'
   status: backfilled

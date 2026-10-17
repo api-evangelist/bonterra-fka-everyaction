@@ -1,0 +1,446 @@
+openapi: 3.2.0
+info:
+  title: everyaction-8 Users API
+  version: '1.0'
+servers:
+- url: https://api.securevan.com/v4
+security:
+- sec0: []
+tags:
+- name: Users
+paths:
+  /users/{userId}/districtFieldValues:
+    get:
+      summary: /users/{userId}/districtFieldValues
+      description: 'Use this endpoint to retrieve all District Field Values assigned to a user.
+
+
+        This endpoint returns a standard User District Field Value Assignment.'
+      operationId: usersuseriddistrictfieldvalues
+      parameters:
+      - name: userId
+        in: path
+        description: Required; unique identifier of the User
+        schema:
+          type: integer
+          format: int32
+          default: 1234
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"districtFieldValues\": [\n      \"W1P2\",\n      \"W1P3\",\n      \"W2P1\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  districtFieldValues:
+                    type: array
+                    items:
+                      type: string
+                      example: W1P2
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Users
+    post:
+      summary: /users/{userId}/districtFieldValues
+      description: Use this endpoint to assign additional district field values to a user.
+      operationId: usersuseriddistrictfieldvalues-1
+      parameters:
+      - name: userId
+        in: path
+        description: Required; unique identifier of the User
+        schema:
+          type: integer
+          format: int32
+          default: 1234
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                districtFieldValues:
+                  type: array
+                  default:
+                  - W1P2
+                  - W1P3
+                  - W2P1
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"districtFieldValues\": [\n      \"W1P2\",\n      \"W1P3\",\n      \"W2P1\",\n      \"W2P2\",\n      \"W3P1\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  districtFieldValues:
+                    type: array
+                    items:
+                      type: string
+                      example: W1P2
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Users
+    put:
+      summary: /users/{userId}/districtFieldValues
+      description: 'Use this endpoint to completely overwrite the district field values assignments for a user.
+
+
+        The request is a standard User District Field Value Assignment.
+
+
+        *Response*
+
+
+        The response is the full set of district field value assignments for this user, and thus should be identical to the district field values in the request.'
+      operationId: usersuseriddistrictfieldvalues-2
+      parameters:
+      - name: userId
+        in: path
+        description: Required; unique identifier of the User
+        schema:
+          type: integer
+          format: int32
+          default: 1234
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                districtFieldValues:
+                  type: array
+                  default:
+                  - W1P2
+                  - W4P1
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"districtFieldValues\": [\n      \"W1P2\",\n      \"W4P1\"\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  districtFieldValues:
+                    type: array
+                    items:
+                      type: string
+                      example: W1P2
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - Users
+components:
+  securitySchemes:
+    sec0:
+      type: http
+      scheme: basic
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.everyaction.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.everyaction.com/reference/activistcodes-activistcodeid.md
+  - https://docs.everyaction.com/reference/activistcodes.md
+  - https://docs.everyaction.com/reference/ballotrequesttypes-ballotrequesttypeid.md
+  - https://docs.everyaction.com/reference/ballotrequesttypes.md
+  - https://docs.everyaction.com/reference/ballotreturnstatuses-ballotreturnstatusid.md
+  - https://docs.everyaction.com/reference/ballotreturnstatuses.md
+  - https://docs.everyaction.com/reference/ballottypes-ballottypeid.md
+  - https://docs.everyaction.com/reference/ballottypes.md
+  - https://docs.everyaction.com/reference/bargainingunits-bargainingunitid.md
+  - https://docs.everyaction.com/reference/bargainingunits.md
+  - https://docs.everyaction.com/reference/bulkimportjobs-jobid.md
+  - https://docs.everyaction.com/reference/bulkimportjobs-resources.md
+  - https://docs.everyaction.com/reference/bulkimportjobs.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes-mappingtypename-fieldname-values.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes-mappingtypename.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes.md
+  - https://docs.everyaction.com/reference/canvassfilereqeusts-canvassfilerequestid.md
+  - https://docs.everyaction.com/reference/canvassfilerequests.md
+  - https://docs.everyaction.com/reference/canvassresponses-contacttypes.md
+  - https://docs.everyaction.com/reference/canvassresponses-inputtypes.md
+  - https://docs.everyaction.com/reference/canvassresponses-resultcodes.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-changetypes-resourcetype.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-exportjobid.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-fields-resourcetype.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-resources.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs.md
+  - https://docs.everyaction.com/reference/codes-batch.md
+  - https://docs.everyaction.com/reference/codes-codeid.md
+  - https://docs.everyaction.com/reference/codes-supportedentities.md
+  - https://docs.everyaction.com/reference/codesextendedsourcecodes.md
+  - https://docs.everyaction.com/reference/codetypes.md
+  - https://docs.everyaction.com/reference/commitments-commitmentid.md
+  - https://docs.everyaction.com/reference/commitments-recurringpayments.md
+  - https://docs.everyaction.com/reference/commitments.md
+  - https://docs.everyaction.com/reference/contributions-alternateidtype-alternateid.md
+  - https://docs.everyaction.com/reference/contributions-attribution-types.md
+  - https://docs.everyaction.com/reference/contributions-contributionid-adjustments.md
+  - https://docs.everyaction.com/reference/contributions-contributionid-attributions-vanid.md
+  - https://docs.everyaction.com/reference/contributions-contributionid.md
+  - https://docs.everyaction.com/reference/contributions-payments.md
+  - https://docs.everyaction.com/reference/contributionsrecentcontributions.md
+  - https://docs.everyaction.com/reference/create-surveyquestion.md
+  - https://docs.everyaction.com/reference/customfields-customfieldid.md
+  - https://docs.everyaction.com/reference/customfields.md
+  - https://docs.everyaction.com/reference/delete-codes-codeid.md
+  - https://docs.everyaction.com/reference/delete-codes.md
+  - https://docs.everyaction.com/reference/delete-contributions-contributionid-attributions-vanid.md
+  - https://docs.everyaction.com/reference/delete-events-eventid.md
+  - https://docs.everyaction.com/reference/delete-people-vanid-myactivistflags.md
+  - https://docs.everyaction.com/reference/departments-departmentid.md
+  - https://docs.everyaction.com/reference/designations-designationid.md
+  - https://docs.everyaction.com/reference/disbursements-disbursementid.md
+  - https://docs.everyaction.com/reference/disbursementsrecentdisbursements.md
+  - https://docs.everyaction.com/reference/districtfields-districtfieldid.md
+  - https://docs.everyaction.com/reference/districtfields.md
+  - https://docs.everyaction.com/reference/earlyvotefields.md
+  - https://docs.everyaction.com/reference/earlyvotefieldsearlyvotefieldid.md
+  - https://docs.everyaction.com/reference/echoes.md
+  - https://docs.everyaction.com/reference/email-message-emailid.md
+  - https://docs.everyaction.com/reference/email-messages.md
+  - https://docs.everyaction.com/reference/employers-employerid-bargainingunits-bargainingunitid-jobclassesjobclassid.md
+  - https://docs.everyaction.com/reference/employers-employerid-bargainingunits-bargainingunitid.md
+  - https://docs.everyaction.com/reference/employers-employerid-deparments.md
+  - https://docs.everyaction.com/reference/employers-employerid-shifttypes-shifttypeid.md
+  - https://docs.everyaction.com/reference/employers-employerid-worksites.md
+  - https://docs.everyaction.com/reference/employers-employerid.md
+  - https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitiddelete.md
+  - https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitidjobclassesjobclassiddelete.md
+  - https://docs.everyaction.com/reference/employersemployeridshifttypesshifttypeiddelete.md
+  - https://docs.everyaction.com/reference/events-eventid-shifts.md
+  - https://docs.everyaction.com/reference/events-eventid.md
+  - https://docs.everyaction.com/reference/events-types-eventtypeid.md
+  - https://docs.everyaction.com/reference/events-types.md
+  - https://docs.everyaction.com/reference/exportjobs.md
+  - https://docs.everyaction.com/reference/exportjobsexportjobid.md
+  - https://docs.everyaction.com/reference/exportjobtypes.md
+  - https://docs.everyaction.com/reference/fileloadingjobs.md
+  - https://docs.everyaction.com/reference/fileloadingjobsjobid.md
+  - https://docs.everyaction.com/reference/fileloadingjobsjobidstats.md
+  - https://docs.everyaction.com/reference/financialbatches-1.md
+  - https://docs.everyaction.com/reference/financialbatches.md
+  - https://docs.everyaction.com/reference/financialbatchesfinancialbatchid.md
+  - https://docs.everyaction.com/reference/find-by-phone.md
+  - https://docs.everyaction.com/reference/folders-1.md
+  - https://docs.everyaction.com/reference/foldersfolderid.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregions.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionid.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionidrefresh.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsrefresh.md
+  - https://docs.everyaction.com/reference/get-campaign-by-id.md
+  - https://docs.everyaction.com/reference/get-campaigns.md
+  - https://docs.everyaction.com/reference/get-codes.md
+  - https://docs.everyaction.com/reference/get-departments.md
+  - https://docs.everyaction.com/reference/get-designations.md
+  - https://docs.everyaction.com/reference/get-employers.md
+  - https://docs.everyaction.com/reference/get-events.md
+  - https://docs.everyaction.com/reference/get-people-personid-type-personid.md
+  - https://docs.everyaction.com/reference/get-people-vanid.md
+  - https://docs.everyaction.com/reference/get-people.md
+  - https://docs.everyaction.com/reference/introspection.md
+  - https://docs.everyaction.com/reference/jobclasses-1.md
+  - https://docs.everyaction.com/reference/jobclasses.md
+  - https://docs.everyaction.com/reference/jobclassesjobclassid.md
+  - https://docs.everyaction.com/reference/locations-1.md
+  - https://docs.everyaction.com/reference/locations-2.md
+  - https://docs.everyaction.com/reference/locationsfindorcreate.md
+  - https://docs.everyaction.com/reference/locationslocationid-1.md
+  - https://docs.everyaction.com/reference/locationslocationid.md
+  - https://docs.everyaction.com/reference/memberstatuses-1.md
+  - https://docs.everyaction.com/reference/memberstatuses.md
+  - https://docs.everyaction.com/reference/memberstatusesmemberstatusid.md
+  - https://docs.everyaction.com/reference/minivanexports.md
+  - https://docs.everyaction.com/reference/minivanexportsminivanexportid.md
+  - https://docs.everyaction.com/reference/notescategories.md
+  - https://docs.everyaction.com/reference/notescategoriesnotecategoryid.md
+  - https://docs.everyaction.com/reference/notescategorytypes.md
+  - https://docs.everyaction.com/reference/onlineactionsforms.md
+  - https://docs.everyaction.com/reference/onlineactionsformsformtrackingid.md
+  - https://docs.everyaction.com/reference/patch-codes-codeid.md
+  - https://docs.everyaction.com/reference/patch-employers-employerid.md
+  - https://docs.everyaction.com/reference/patch-events-eventid.md
+  - https://docs.everyaction.com/reference/people-find.md
+  - https://docs.everyaction.com/reference/people-findorcreate.md
+  - https://docs.everyaction.com/reference/people-persoid-type-personid.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-canvassresponses.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-codes-codeid.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-codes.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-disclosurefieldvalues.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-notes.md
+  - https://docs.everyaction.com/reference/people-vanid-activistcodes.md
+  - https://docs.everyaction.com/reference/people-vanid-canvassresponses.md
+  - https://docs.everyaction.com/reference/people-vanid-codes-codeid.md
+  - https://docs.everyaction.com/reference/people-vanid-codes.md
+  - https://docs.everyaction.com/reference/people-vanid-delete.md
+  - https://docs.everyaction.com/reference/people-vanid-disclosurefieldvalues.md
+  - https://docs.everyaction.com/reference/people-vanid-membership.md
+  - https://docs.everyaction.com/reference/people-vanid-mergeinto.md
+  - https://docs.everyaction.com/reference/people-vanid-myactivistflags.md
+  - https://docs.everyaction.com/reference/people-vanid-names.md
+  - https://docs.everyaction.com/reference/people-vanid-notes-noteid.md
+  - https://docs.everyaction.com/reference/people-vanid-notes.md
+  - https://docs.everyaction.com/reference/people-vanid-relationships.md
+  - https://docs.everyaction.com/reference/people-vanid.md
+  - https://docs.everyaction.com/reference/peoplepersonidcanvassresponsesreferenceid.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsescanvassresponseid-copy.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsescanvassresponseid.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsesreferenceid.md
+  - https://docs.everyaction.com/reference/post-bargainingunits.md
+  - https://docs.everyaction.com/reference/post-codes.md
+  - https://docs.everyaction.com/reference/post-contributions.md
+  - https://docs.everyaction.com/reference/post-disbursements.md
+  - https://docs.everyaction.com/reference/post-employers.md
+  - https://docs.everyaction.com/reference/post-events.md
+  - https://docs.everyaction.com/reference/post-people-vanid-notes.md
+  - https://docs.everyaction.com/reference/printedlists.md
+  - https://docs.everyaction.com/reference/printedlistsprintedlistnumber.md
+  - https://docs.everyaction.com/reference/pronouns.md
+  - https://docs.everyaction.com/reference/put-codes-codeid.md
+  - https://docs.everyaction.com/reference/put-codes.md
+  - https://docs.everyaction.com/reference/put-events-eventid.md
+  - https://docs.everyaction.com/reference/relationships-1.md
+  - https://docs.everyaction.com/reference/reportedethnicities.md
+  - https://docs.everyaction.com/reference/reportedgenders.md
+  - https://docs.everyaction.com/reference/reportedlanguagepreferences.md
+  - https://docs.everyaction.com/reference/reportedraces.md
+  - https://docs.everyaction.com/reference/reportedsexualorientations.md
+  - https://docs.everyaction.com/reference/savedlists.md
+  - https://docs.everyaction.com/reference/savedlistssavedlistid.md
+  - https://docs.everyaction.com/reference/scheduletypes-1.md
+  - https://docs.everyaction.com/reference/scheduletypes.md
+  - https://docs.everyaction.com/reference/scheduletypesscheduletypeid.md
+  - https://docs.everyaction.com/reference/scores-1.md
+  - https://docs.everyaction.com/reference/scoresscoreid.md
+  - https://docs.everyaction.com/reference/scoresscoreidcommitteeaccess.md
+  - https://docs.everyaction.com/reference/scoreupdates.md
+  - https://docs.everyaction.com/reference/scoreupdatesscoreupdateid-1.md
+  - https://docs.everyaction.com/reference/scoreupdatesscoreupdateid.md
+  - https://docs.everyaction.com/reference/shifttypes-1.md
+  - https://docs.everyaction.com/reference/shifttypes.md
+  - https://docs.everyaction.com/reference/shifttypesshifttypeid.md
+  - https://docs.everyaction.com/reference/signups-1.md
+  - https://docs.everyaction.com/reference/signups-2.md
+  - https://docs.everyaction.com/reference/signupseventsignupid-1.md
+  - https://docs.everyaction.com/reference/signupseventsignupid-2.md
+  - https://docs.everyaction.com/reference/signupseventsignupid.md
+  - https://docs.everyaction.com/reference/signupsstatuses.md
+  - https://docs.everyaction.com/reference/smssync.md
+  - https://docs.everyaction.com/reference/stories-1.md
+  - https://docs.everyaction.com/reference/storiesstoryid.md
+  - https://docs.everyaction.com/reference/supportergroups-1.md
+  - https://docs.everyaction.com/reference/supportergroups.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupid-1.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupid.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupidpeoplevanid-1.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupidpeoplevanid.md
+  - https://docs.everyaction.com/reference/surveyquestions.md
+  - https://docs.everyaction.com/reference/surveyquestionssurveyquestionid-1.md
+  - https://docs.everyaction.com/reference/surveyquestionssurveyquestionid.md
+  - https://docs.everyaction.com/reference/targetexportjobs.md
+  - https://docs.everyaction.com/reference/targetexportjobsexportjobid.md
+  - https://docs.everyaction.com/reference/targets-1.md
+  - https://docs.everyaction.com/reference/targetstargetid.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues-1.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues-2.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues.md
+  - https://docs.everyaction.com/reference/voterregistrationbatches-1.md
+  - https://docs.everyaction.com/reference/voterregistrationbatches.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesbatchid.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesbatchidpeople.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesprogramtypes.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesregistrationforms.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesstatesstatesupportedfields.md
+  - https://docs.everyaction.com/reference/worksites-1.md
+  - https://docs.everyaction.com/reference/worksitesworksiteid.md
+  - https://docs.everyaction.com/reference/worksitesworksiteiddelete.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidput.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareas.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareasput.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareasworkareaiddelete.md
+  merge:
+    pages: 219
+    deduped: 218
+    conflicts_kept_first: 0

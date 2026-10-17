@@ -1,0 +1,3711 @@
+openapi: 3.2.0
+info:
+  title: everyaction-8 People API
+  version: '1.0'
+servers:
+- url: https://api.securevan.com/v4
+security:
+- sec0: []
+tags:
+- name: People
+paths:
+  /people:
+    get:
+      summary: /people
+      description: 'Returns a paginated list of contacts who meet all of the specified criteria.
+
+
+        Unless noted otherwise, search criteria can be partial inputs; they will match any string that starts with the value provided (case-insensitive).
+
+
+        At least one string parameter must be specified.'
+      operationId: get-people
+      parameters:
+      - name: firstName
+        in: query
+        schema:
+          type: string
+      - name: middleName
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        schema:
+          type: string
+      - name: streetAddress
+        in: query
+        schema:
+          type: string
+      - name: city
+        in: query
+        schema:
+          type: string
+      - name: stateOrProvince
+        in: query
+        description: Must be a valid state or province code (two or three characters)
+        schema:
+          type: string
+      - name: zipOrPostalCode
+        in: query
+        description: Must be a valid ZIP5 zip code or postal code. For UK clients, this parameter accepts valid partial postcodes (e.g., postcode sector).
+        schema:
+          type: string
+      - name: phoneNumber
+        in: query
+        description: Must be a valid phone number
+        schema:
+          type: string
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: commonName
+        in: query
+        description: If Organizations-as-Contacts is enabled in your database, matches organizations whose Common Name begins with this value.
+        schema:
+          type: string
+      - name: officialName
+        in: query
+        description: If Organizations-as-Contacts is enabled in your database, matches organizations whose Official Name begins with this value.
+        schema:
+          type: string
+      - name: contactMode
+        in: query
+        description: If Organizations-as-Contacts is enabled in your database, filters to records of this type.
+        schema:
+          type: string
+          enum:
+          - Person
+          - Organization
+      - name: $top
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: $skip
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: $expand
+        in: query
+        description: Valid `$expand` sections are are `Addresses`, `Districts`, `Emails`, and `Phones`.
+        schema:
+          type: string
+      - name: $orderby
+        in: query
+        description: '`Name asc` and `Name desc` are the only valid `$orderby` arguments'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"items\": [\n    {\n      \"vanId\": 987654,\n      \"...\": null,\n      \"addresses\": [],\n      \"phones\": [],\n      \"districts\": [],\n      \"emails\": []\n    },\n    {\n      \"vanId\": 1234556,\n      \"...\": null,\n      \"addresses\": [],\n      \"phones\": [],\n      \"districts\": [],\n      \"emails\": []\n    }\n  ],\n  \"nextPageLink\": null,\n  \"count\": 2\n}\n    "
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        vanId:
+                          type: integer
+                          example: 987654
+                          default: 0
+                        '...': {}
+                        addresses:
+                          type: array
+                        phones:
+                          type: array
+                        districts:
+                          type: array
+                        emails:
+                          type: array
+                  nextPageLink: {}
+                  count:
+                    type: integer
+                    example: 2
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Invalid phoneNumber:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"INVALID_PARAMETER\",\n      \"text\": \"'phoneNumber' (1507) is not a valid phone number for NorthAmerica\",\n      \"properties\": [\n        \"phoneNumber\"\n      ],\n      \"hint\": \"After non-numeric characters are removed, value must match the regular expression: ^1?[2-9][0-8]\\\\d[2-9]\\\\d{6,6}$\"\n    }\n  ]\n}"
+                Not enough search parameters:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"INVALID_PARAMETER\",\n      \"text\": \"This endpoint requires at least one search parameter to be set.\",\n      \"properties\": [\n        \"All Arguments\"\n      ]\n    }\n  ]\n}"
+              schema:
+                oneOf:
+                - title: Invalid phoneNumber
+                  type: object
+                  properties:
+                    errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          code:
+                            type: string
+                            example: INVALID_PARAMETER
+                          text:
+                            type: string
+                            example: '''phoneNumber'' (1507) is not a valid phone number for NorthAmerica'
+                          properties:
+                            type: array
+                            items:
+                              type: string
+                              example: phoneNumber
+                          hint:
+                            type: string
+                            example: 'After non-numeric characters are removed, value must match the regular expression: ^1?[2-9][0-8]\d[2-9]\d{6,6}$'
+                - title: Not enough search parameters
+                  type: object
+                  properties:
+                    errors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          code:
+                            type: string
+                            example: INVALID_PARAMETER
+                          text:
+                            type: string
+                            example: This endpoint requires at least one search parameter to be set.
+                          properties:
+                            type: array
+                            items:
+                              type: string
+                              example: All Arguments
+      deprecated: false
+      tags:
+      - People
+  /people/find:
+    post:
+      summary: /people/find
+      description: Attempts to find a person using the given match candidate. See Common Models for a full list of fields.
+      operationId: people-find
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vanId:
+                  type: string
+                  description: Providing a valid VANID will override other search criteria
+                firstName:
+                  type: string
+                  default: James
+                middleName:
+                  type: string
+                lastName:
+                  type: string
+                  default: Gordon
+                dateOfBirth:
+                  type: string
+                  format: date
+                phones:
+                  type: array
+                  description: Contact records may have more than one associated phone number
+                  items:
+                    properties:
+                      phoneNumber:
+                        type: string
+                        description: Number without numeric country code, integer input also accepted (without special characters)
+                        default: 202-686-9330
+                      dialingPrefix:
+                        type: string
+                        description: Optional; numeric country code
+                        default: '1'
+                      countryCode:
+                        type: string
+                        description: Optional; Apha-2 country code
+                        default: US
+                    type: object
+                emails:
+                  type: array
+                  description: Contact records may have more than one associated email
+                  items:
+                    properties:
+                      email:
+                        type: string
+                        default: j.gordon@sink.sendgrid.net
+                    type: object
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"identifiers[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: identifiers[0].type
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/findByPhone:
+    post:
+      summary: /people/findByPhone
+      description: 'Use this endpoint to get the record of an individual if there is exactly one match to the given phone number.
+
+
+        If no matching phone number is found, an HTTP `404 Not Found` response is returned. This same response is also returned if more than one matching phone number is found. A successful response is only generated when the phone number is found on exactly one contact record.
+
+
+        Successful requests will return an HTTP `200` response with a JSON body containing information on the matching record.'
+      operationId: find-by-phone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+                  description: A valid phone number as an integer or string
+                  default: '8005551212'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"            \n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\":[\n    {\n      \"code\":\"NOT_FOUND\"\n      \"text\":\"The specified resource cannot be found.\"\n    }\n  ]\n}"
+      deprecated: false
+      tags:
+      - People
+  /people/findOrCreate:
+    post:
+      summary: /people/findOrCreate
+      description: 'Attempts to find the given match candidate. If a person is found, it is updated with the information provided. If a person is not found, a new person record is created.
+
+
+        See Common Models for a full list of fields.'
+      operationId: people-findorcreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vanId:
+                  type: string
+                  default: '100476252'
+                firstName:
+                  type: string
+                  default: James
+                lastName:
+                  type: string
+                  default: Gordon
+                dateOfBirth:
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"emails[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: emails[0].type
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}:
+    post:
+      summary: /people/{personIdType}:{personId}
+      description: Updates a Person record. An alias for using POST /people/findOrCreate with an `identifiers` object that has a `type` property equal to the `personIdType` route parameter and an `externalId` property equal to the `personId` route parameter.
+      operationId: people-persoid-type-personid
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vanId:
+                  type: string
+                  default: '100476252'
+                firstName:
+                  type: string
+                  default: James
+                lastName:
+                  type: string
+                  default: Gordon
+                dateOfBirth:
+                  type: string
+                  default: 1970-02-11T10:15:26Z7-04
+                  format: date
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"addresses[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: addresses[0].type
+      deprecated: false
+      tags:
+      - People
+    get:
+      summary: /people/{personIdType}:{personId}
+      description: Retrieve a person record and associated contact information. For example `/people/DWID:12345` would retrieve a person whose DWID is 12345.
+      operationId: get-people-personid-type-personid
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      - name: $expand
+        in: query
+        description: 'Optional; comma-delimited list of expansion properties: `phones`, `emails`, `addresses`, `customFields`'
+        schema:
+          type: string
+          default: phones,emails
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '403':
+          description: '403'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"FORBIDDEN\",\n      \"text\": \"Access to this resource is restricted.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: FORBIDDEN
+                        text:
+                          type: string
+                          example: Access to this resource is restricted.
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/canvassResponses:
+    post:
+      summary: /people/{personIdType}:{personId}/canvassResponses
+      description: This endpoint is the same as POST /people/{vanId}/canvassResponses but uses external IDs rather than VANIDs.
+      operationId: people-personidtype-personid-canvassresponses
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                canvassContext:
+                  type: object
+                  description: Optional; describes the context in which this Canvass Response was created
+                  properties:
+                    contactTypeId:
+                      type: integer
+                      description: Optional; a valid [Contact Type ID](https://docs.everyaction.com/reference/canvassresponsescontacttypes)
+                      format: int32
+                    inputTypeId:
+                      type: integer
+                      description: Optional; a valid [Input Type ID](https://docs.everyaction.com/reference/canvassresponsesinputtypes)  (defaults to `11` → API)
+                      default: 11
+                      format: int32
+                    dateCanvassed:
+                      type: string
+                      description: Optional; the ISO 8601 formatted date that the canvass attempt was made (defaults to today’s date)
+                      format: date
+                    phoneId:
+                      type: integer
+                      description: Optional; the identifier of the phone number that was called when canvassing this person. May result in a phone suppression in the event of certain kinds of Result Codes (e.g., Wrong Number.)
+                      format: int32
+                    skipMatching:
+                      type: boolean
+                      description: Optional; if set to `true`, skips matching/de-duping of contact history. Defaults to `false`.
+                    omitActivistCodeContactHistory:
+                      type: boolean
+                      description: Optional; if set to `true`, no contact history record will be created if `responses` contains only Activist Codes
+                    phone:
+                      type: object
+                      description: Optional; describes the context of the phone number where a contact was attempted
+                      properties:
+                        dialingPrefix:
+                          type: string
+                          description: The country calling code of the number
+                          default: '1'
+                        phoneNumber:
+                          type: string
+                          description: Required when inputTypeId is 1 (Phone) or 37 (SMS); the phone number you are attempting - without calling code/dialing prefix
+                          default: 555-555-1234
+                        smsOptInStatus:
+                          type: string
+                          description: 'Optional; Must be one of three values: `I` (Opt-In), `O` (Opt-Out), `U` (Unknown). Please note: phone numbers that have been deactivated by the carrier will be marked with an SMS Opt In Status of "Unknown". This information is updated nightly based on information provided by cell phone carriers.'
+                          enum:
+                          - I
+                          - O
+                          - U
+                    campaignId:
+                      type: integer
+                      description: Optional; a valid [Campaign ID](https://docs.everyaction.com/reference/campaigns). Required if `contentId` is also specified.
+                      format: int32
+                    contentId:
+                      type: integer
+                      description: Optional; a valid Content ID. If specified, the Content's corresponding Campaign must be specified as `campaignId`.
+                      format: int32
+                    includeReferenceIdInResponse:
+                      type: boolean
+                      description: Optional; When set to true, the response body will include a GUID corresponding to the newly created canvass response. This GUID can be used later at GET /people/{vanId}/canvassResponses to retrieve the associated canvassResponseId, which is necessary for patching canvass responses at PATCH /people/{vanId}/canvassResponses/{canvassResponseId}. By default, this parameter is false.
+                resultCodeId:
+                  type: integer
+                  description: Optional; specifies the [Result Code](https://docs.everyaction.com/reference/canvass-responses#canvassresponsesresultcodes) of this Response. If no `resultCodeId` is specified, `responses` must be specified. Conversely, if `responses` are specified, `resultCodeId` must be null (a result of *Canvassed* is implied). The `resultCodeId` must be a valid [Result Code](https://docs.everyaction.com/reference/canvass-responses#canvassresponsesresultcodes) in the current context.
+                  default: 205
+                  format: int32
+                responses:
+                  type: array
+                  description: Optional; an array of Script Responses. If specified, `resultCodeId` must be null. Each Script Response has a property that determines the response's type. This array can contain multiple types.
+                  items:
+                    properties:
+                      type:
+                        type: string
+                        description: The `type` of this response dictates the validation requirements of other properties. One of `ActivistCode`, `SurveyResponse`, or `VolunteerActivity`
+                        enum:
+                        - ActivistCode
+                        - SurveyResponse
+                        - VolunteerActivity
+                      action:
+                        type: string
+                        description: 'Indicates whether to apply or remove this response from a person (valid for `ActivistCode` and `VolunteerActivity` only). NOTE: when removing a multi-assign Activist Code, include dateCanvassed in the canvassContext array to specify the record.'
+                        default: Apply
+                        enum:
+                        - Apply
+                        - Remove
+                      activistCodeId:
+                        type: integer
+                        description: Required if `type` is `ActivistCode`; a valid [Activist Code ID](https://docs.everyaction.com/reference/activist-codes)
+                        format: int32
+                      surveyQuestionId:
+                        type: integer
+                        description: Required if `type` is `SurveyResponse`; a valid [Survey Question ID](https://docs.everyaction.com/reference/survey-questions)
+                        format: int32
+                      surveyResponseId:
+                        type: integer
+                        description: Required if `type` is `SurveyResponse`; a valid response corresponding to the question specified by `surveyQuestionId`
+                        format: int32
+                      volunteerActivityId:
+                        type: integer
+                        description: Required if `type` is `VolunteerActivity`; a valid Volunteer Activity ID
+                        format: int32
+                    required:
+                    - type
+                    type: object
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"referenceId\": \"b958d667-8f88-498f-8a2d-559fdd8f145d\"\n}"
+              schema:
+                type: object
+                properties:
+                  referenceId:
+                    type: string
+                    example: b958d667-8f88-498f-8a2d-559fdd8f145d
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"addresses[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: addresses[0].type
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/canvassResponses/{canvassResponseId}:
+    patch:
+      summary: /people/{personIdType}:{personId}/canvassResponses/{canvassResponseId}
+      description: This endpoint is the same as PATCH /people/{vanId}/canvassResponses/{referenceId} but uses external IDs rather than VANIDs.
+      operationId: peoplevanidcanvassresponsescanvassresponseid-copy
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      - name: canvassResponseId
+        in: path
+        description: Required; Unique canvass response identifier. Retrieve this from [GET /people/{vanId}/canvassResponses/{referenceId}](https://docs.everyaction.com/reference/peoplevanidcanvassresponsesreferenceid)
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                canvassContext:
+                  type: object
+                  description: Required; describes the context in which this Canvass Response was created.
+                  properties:
+                    contactTypeId:
+                      type: integer
+                      description: Optional; a valid [Contact Type ID](https://docs.everyaction.com/reference/canvassresponsescontacttypes)
+                      format: int32
+                    inputTypeId:
+                      type: integer
+                      description: Optional; a valid [Input Type ID](https://docs.everyaction.com/reference/canvassresponsesinputtypes)  (defaults to `11` → API)
+                      default: 11
+                      format: int32
+                    dateCanvassed:
+                      type: string
+                      description: Optional; the ISO 8601 formatted date that the canvass attempt was made (defaults to today’s date)
+                      format: date
+                    phoneId:
+                      type: integer
+                      description: Optional; the identifier of the phone number that was called when canvassing this person. May result in a phone suppression in the event of certain kinds of Result Codes (e.g., Wrong Number.)
+                      format: int32
+                    skipMatching:
+                      type: boolean
+                      description: Optional; if set to `true`, skips matching/de-duping of contact history. Defaults to `false`.
+                    omitActivistCodeContactHistory:
+                      type: boolean
+                      description: Optional; if set to `true`, no contact history record will be created if `responses` contains only Activist Codes
+                    phone:
+                      type: object
+                      description: Optional; describes the context of the phone number where a contact was attempted
+                      properties:
+                        dialingPrefix:
+                          type: string
+                          description: The country calling code of the number
+                          default: '1'
+                        phoneNumber:
+                          type: string
+                          description: Required when inputTypeId is 1 (Phone) or 37 (SMS); the phone number you are attempting - without calling code/dialing prefix
+                          default: 555-555-1234
+                        smsOptInStatus:
+                          type: string
+                          description: 'Optional; Must be one of three values: `I` (Opt-In), `O` (Opt-Out), `U` (Unknown). Please note: phone numbers that have been deactivated by the carrier will be marked with an SMS Opt In Status of "Unknown". This information is updated nightly based on information provided by cell phone carriers.'
+                          enum:
+                          - I
+                          - O
+                          - U
+                    campaignId:
+                      type: integer
+                      description: Optional; a valid [Campaign ID](https://docs.everyaction.com/reference/campaigns). Required if `contentId` is also specified.
+                      format: int32
+                    contentId:
+                      type: integer
+                      description: Optional; a valid Content ID. If specified, the Content's corresponding Campaign must be specified as `campaignId`.
+                      format: int32
+                    includeReferenceIdInResponse:
+                      type: boolean
+                      description: Optional; When set to true, the response body will include a GUID corresponding to the newly created canvass response. This GUID can be used later at GET /people/{vanId}/canvassResponses to retrieve the associated canvassResponseId, which is necessary for patching canvass responses at PATCH /people/{vanId}/canvassResponses/{canvassResponseId}. By default, this parameter is false.
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: '404'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/canvassResponses/{referenceId}:
+    get:
+      summary: /people/{personIdType}:{personId}/canvassResponses/{referenceId}
+      description: This endpoint is the same as GET /people/{vanId}/canvassResponses/{referenceId} but uses external IDs rather than VANIDs.
+      operationId: peoplepersonidcanvassresponsesreferenceid
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      - name: referenceId
+        in: path
+        description: Required; Unique GUID found in the response body of [POST /people/{vanId}/canvassResponses](https://docs.ngpvan.com/reference/peoplevanidcanvassresponses) when includeReferenceIdInResponse is set to true.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": \"6297278\",\n    \"canvassResponses\": [\n        {\n            \"canvassResponseId\": 1530651,\n            \"canvassContext\": {\n                \"contactTypeId\": 37,\n                \"inputTypeId\": 11,\n                \"dateCanvassed\": \"2023-06-01T11:06:00-04:00\",\n                \"phone\": {\n                    \"phoneId\": 6886215,\n                    \"phoneNumber\": \"4567890100\",\n                    \"dialingPrefix\": \"1\",\n                    \"countryCode\": \"US\",\n                    \"ext\": null,\n                    \"dateCreated\": \"2023-06-16T13:09:00Z\",\n                    \"phoneType\": \"Home\",\n                    \"isPreferred\": false,\n                    \"smsOptInStatus\": null,\n                    \"phoneOptInStatus\": null,\n                    \"isCellStatus\": {\n                        \"statusId\": 3,\n                        \"statusName\": \"Likely Not a Cell\"\n                    }\n                },\n                \"campaignId\": null,\n                \"contentId\": null,\n                \"skipMatching\": false,\n                \"teamId\": null,\n                \"divisionId\": null,\n                \"omitActivistCodeContactHistory\": null\n            },\n            \"resultCodeId\": 14,\n            \"responses\": [],\n            \"note\": null,\n            \"emails\": null,\n            \"phones\": null,\n            \"externalReferenceId\": \"58F366C1-B215-46E8-AF45-7FD255DAE3B0\",\n            \"selfReportedDemographicFields\": null\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: string
+                    example: '6297278'
+                  canvassResponses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        canvassResponseId:
+                          type: integer
+                          example: 1530651
+                          default: 0
+                        canvassContext:
+                          type: object
+                          properties:
+                            contactTypeId:
+                              type: integer
+                              example: 37
+                              default: 0
+                            inputTypeId:
+                              type: integer
+                              example: 11
+                              default: 0
+                            dateCanvassed:
+                              type: string
+                              example: '2023-06-01T11:06:00-04:00'
+                            phone:
+                              type: object
+                              properties:
+                                phoneId:
+                                  type: integer
+                                  example: 6886215
+                                  default: 0
+                                phoneNumber:
+                                  type: string
+                                  example: '4567890100'
+                                dialingPrefix:
+                                  type: string
+                                  example: '1'
+                                countryCode:
+                                  type: string
+                                  example: US
+                                ext: {}
+                                dateCreated:
+                                  type: string
+                                  example: '2023-06-16T13:09:00Z'
+                                phoneType:
+                                  type: string
+                                  example: Home
+                                isPreferred:
+                                  type: boolean
+                                  example: false
+                                  default: true
+                                smsOptInStatus: {}
+                                phoneOptInStatus: {}
+                                isCellStatus:
+                                  type: object
+                                  properties:
+                                    statusId:
+                                      type: integer
+                                      example: 3
+                                      default: 0
+                                    statusName:
+                                      type: string
+                                      example: Likely Not a Cell
+                            campaignId: {}
+                            contentId: {}
+                            skipMatching:
+                              type: boolean
+                              example: false
+                              default: true
+                            teamId: {}
+                            divisionId: {}
+                            omitActivistCodeContactHistory: {}
+                        resultCodeId:
+                          type: integer
+                          example: 14
+                          default: 0
+                        responses:
+                          type: array
+                        note: {}
+                        emails: {}
+                        phones: {}
+                        externalReferenceId:
+                          type: string
+                          example: 58F366C1-B215-46E8-AF45-7FD255DAE3B0
+                        selfReportedDemographicFields: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/codes:
+    post:
+      summary: /people/{personIdType}:{personId}/codes
+      description: This endpoint is the same as POST /people/{vanId}/codes but uses external IDs rather than VANIDs.
+      operationId: people-personidtype-personid-codes
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codeId:
+                  type: string
+                  description: Required; Unique identifier for an existing [Code](https://docs.everyaction.com/reference/codes) that is applicable to a Person.
+                  default: '20545'
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/codes/{codeId}:
+    delete:
+      summary: /people/{personIdType}:{personId}/codes/{codeId}
+      description: 'Use this endpoint to remove a single Code from a Person identified by a case-insensitive external ID.
+
+
+        This endpoint is the same as DELETE/people/{vanId}/codes/{codeId} but uses external IDs rather than VANIDs.'
+      operationId: people-personidtype-personid-codes-codeid
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      - name: codeId
+        in: path
+        description: Required; the ID of a Code that may or may not be applied to the person
+        schema:
+          type: string
+          default: '20545'
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/disclosureFieldValues:
+    post:
+      summary: /people/{personIdType}:{personId}/disclosureFieldValues
+      description: This endpoint is the same as POST /people/{vanId}/disclosureFieldValues but uses external IDs rather than VANIDs.
+      operationId: people-personidtype-personid-disclosurefieldvalues
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                disclosureFieldValues:
+                  type: array
+                  description: An array of  [Disclosure Fields Value](https://docs.everyaction.com/reference/people#disclosure-field-values) objects associated with the contribution
+                  items:
+                    properties:
+                      disclosureFieldId:
+                        type: string
+                        description: Identifies the Disclosure Field. Together, the designation id and disclosure field id provide a unique identifier of a Disclosure Field.
+                        default: '1001'
+                      disclosureFieldValue:
+                        type: string
+                        description: The value of the Disclosure Field
+                        default: John
+                      designationId:
+                        type: string
+                        description: The unique identifier of the [Designation](https://everyaction.readme.io/reference#designations) of the Disclosure Field
+                        default: '740'
+                    type: object
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+      deprecated: false
+      tags:
+      - People
+  /people/{personIdType}:{personId}/notes:
+    post:
+      summary: /people/{personIdType}:{personId}/notes
+      description: This endpoint is the same as POST /people/{vanId}/notes but uses external IDs rather than VANIDs.
+      operationId: people-personidtype-personid-notes
+      parameters:
+      - name: personIdType
+        in: path
+        description: Required; a known person identifier type available in the current context
+        schema:
+          type: string
+          default: GWID
+        required: true
+      - name: personId
+        in: path
+        description: Required; an external identifier, URL encoded
+        schema:
+          type: string
+          default: '3'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Required; the content of the description of the Person.
+                  default: Great chat! This person will be able to volunteer next year.
+                isViewRestricted:
+                  type: string
+                  description: Required; set to `true` if the note should be restricted only to certain users within the current context; set to `false` if the note may be viewed by any user in the current context.
+                  default: 'false'
+                category:
+                  type: object
+                  description: Optional; if specified, must be an object whose `noteCategoryId` corresponds to a Note Category which may be applied to People, and which is available at `GET /notes/categories`,
+                  properties:
+                    noteCategoryId:
+                      type: integer
+                      description: Unique identifier for a Note Category in this context
+                      default: 99
+                      format: int32
+                contactHistory:
+                  type: object
+                  properties:
+                    contactTypeId:
+                      type: string
+                      description: Optional; a valid [Contact Type ID](https://everyaction.readme.io/reference#canvassresponsescontacttypes)
+                      default: '82'
+                    inputTypeId:
+                      type: string
+                      description: Optional; a valid [Input Type ID](https://everyaction.readme.io/reference#canvassresponsesinputtypes) (defaults to `11` → API)
+                      default: '11'
+                    dateCanvassed:
+                      type: string
+                      description: Optional; the [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) formatted date that the canvass attempt was made (defaults to today’s date)
+                      default: '2020-01-09T15:24:18Z'
+                      format: date
+                    resultCodeId:
+                      type: string
+                      description: Optional; specifies the [Result Code](https://everyaction.readme.io/reference#canvassresponsesresultcodes) of this Contact History. If no `resultCodeId` is specified, a result of *Canvassed* is applied. The `resultCodeId` must be a valid [Result Code](https://everyaction.readme.io/reference#canvassresponsesresultcodes) in the current context.
+                      default: '205'
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\":[\n    {\n      \"code\":\"NOT_FOUND\"\n      \"text\":\"The specified resource cannot be found.\"\n    }\n  ]\n}"
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}:
+    post:
+      summary: /people/{vanId}
+      description: 'Updates a Person record. Alias for using POST /people/findOrCreate with the `vanId` property set to the value of the route parameter.
+
+
+        If no Person with the indicated `vanId` is available, this endpoint will return an error with HTTP Status Code `404 Not Found`. Otherwise responds with a Match Responses.'
+      operationId: people-vanid
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vanId:
+                  type: string
+                  default: '100476252'
+                firstName:
+                  type: string
+                  default: James
+                lastName:
+                  type: string
+                  default: Gordon
+                dateOfBirth:
+                  type: string
+                  default: 1970-02-11T10:15:26Z7-04
+                  format: date
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"addresses[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: addresses[0].type
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+    delete:
+      summary: /people/{vanId}
+      description: Suppresses a contact record
+      operationId: people-vanid-delete
+      parameters:
+      - name: vanId
+        in: path
+        description: VANID for the record to suppress
+        schema:
+          type: integer
+          format: int32
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - People
+    get:
+      summary: /people/{vanId}
+      description: 'Retrieve a person record and associated contact information.
+
+
+        Note the following with regards to `expand` parameter values:
+
+        * The `addresses` value will provide best known Home and Mailing address, if available.
+
+        * The `recordedAddresses` value will provide all available address history, but requires special permissions.
+
+        * The `preferences` value is required to retrieve the following properties: `nickname`, `website`, `contactMethodPreferenceCode`, and `jobTitle`.
+
+
+        If no Person with the indicated `vanId` is available, this endpoint will return an error with HTTP Status Code `404 Not Found`.'
+      operationId: get-people-vanid
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      - name: $expand
+        in: query
+        description: 'Optional; comma-delimited list of expansion properties: `phones`, `emails`, `addresses`, `customFields`, `externalIds`, `recordedAddresses`, `preferences`, `suppressions`, `reportedDemographics`, `disclosureFieldValues`'
+        schema:
+          type: string
+          default: phones,emails
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 100476252,\n    \"firstName\": \"James\",\n    \"lastName\": \"Gordon\",\n    \"middleName\": \"Worthington\",\n    \"party\": \"D\",\n    \"employer\": \"Acme Medical Group\",\n    \"occupation\": \"Physician\",\n    \"sex\": \"M\",\n    \"dateOfBirth\": \"1976-07-04T00:00:00Z\"\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 100476252
+                    default: 0
+                  firstName:
+                    type: string
+                    example: James
+                  lastName:
+                    type: string
+                    example: Gordon
+                  middleName:
+                    type: string
+                    example: Worthington
+                  party:
+                    type: string
+                    example: D
+                  employer:
+                    type: string
+                    example: Acme Medical Group
+                  occupation:
+                    type: string
+                    example: Physician
+                  sex:
+                    type: string
+                    example: M
+                  dateOfBirth:
+                    type: string
+                    example: '1976-07-04T00:00:00Z'
+        '403':
+          description: '403'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"FORBIDDEN\",\n      \"text\": \"Access to this resource is restricted.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: FORBIDDEN
+                        text:
+                          type: string
+                          example: Access to this resource is restricted.
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/activistCodes:
+    get:
+      summary: /people/{vanId}/activistCodes
+      description: 'Retrieves a list of Activist Codes on a Person.
+
+
+        This endpoint accepts standard pagination parameters and returns a standard paginated response.'
+      operationId: people-vanid-activistcodes
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "  {\n    \"items\": [\n      {\n        \"activistCodeId\": 3214,\n        \"activistCodeName\": \"Precinct Captain\",\n        \"dateCreated\": \"2019-05-28T08:45:00Z\",\n        \"canvassedBy\": null,\n        \"dateCanvassed\": \"2019-05-28T08:45:00Z\"\n      }\n    ],\n    \"nextPageLink\": null,\n    \"count\":1\n  }"
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activistCodeId:
+                          type: integer
+                          example: 3214
+                          default: 0
+                        activistCodeName:
+                          type: string
+                          example: Precinct Captain
+                        dateCreated:
+                          type: string
+                          example: '2019-05-28T08:45:00Z'
+                        canvassedBy: {}
+                        dateCanvassed:
+                          type: string
+                          example: '2019-05-28T08:45:00Z'
+                  nextPageLink: {}
+                  count:
+                    type: integer
+                    example: 1
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"addresses[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: addresses[0].type
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/canvassResponses:
+    post:
+      summary: /people/{vanId}/canvassResponses
+      description: 'A Canvass Response encapsulates a complete interaction with a person: it may have a Result Code (if the person was unavailable) or it may have an array of responses such as Activist Codes, Survey Questions, and other Script elements. Optionally, additional information about the canvass interaction can be specified using the `canvassContext` property such as the date of the contact attempt (`dateCanvassed`) or the Contact Type (`contactTypeId`). Use this endpoint to record these interactions.'
+      operationId: people-vanid-canvassresponses
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                canvassContext:
+                  type: object
+                  description: Optional; describes the context in which this Canvass Response was created
+                  properties:
+                    contactTypeId:
+                      type: integer
+                      description: Optional; a valid [Contact Type ID](https://docs.everyaction.com/reference/canvassresponsescontacttypes)
+                      format: int32
+                    inputTypeId:
+                      type: integer
+                      description: Optional; a valid [Input Type ID](https://docs.everyaction.com/reference/canvassresponsesinputtypes)  (defaults to `11` → API)
+                      default: 11
+                      format: int32
+                    dateCanvassed:
+                      type: string
+                      description: Optional; the ISO 8601 formatted date that the canvass attempt was made (defaults to today’s date)
+                      format: date
+                    phoneId:
+                      type: integer
+                      description: Optional; the identifier of the phone number that was called when canvassing this person. May result in a phone suppression in the event of certain kinds of Result Codes (e.g., Wrong Number.)
+                      format: int32
+                    skipMatching:
+                      type: boolean
+                      description: Optional; if set to `true`, skips matching/de-duping of contact history. Defaults to `false`.
+                    omitActivistCodeContactHistory:
+                      type: boolean
+                      description: Optional; if set to `true`, no contact history record will be created if `responses` contains only Activist Codes
+                    phone:
+                      type: object
+                      description: Optional; describes the context of the phone number where a contact was attempted
+                      properties:
+                        dialingPrefix:
+                          type: string
+                          description: The country calling code of the number
+                          default: '1'
+                        phoneNumber:
+                          type: string
+                          description: Required when inputTypeId is 1 (Phone) or 37 (SMS); the phone number you are attempting - without calling code/dialing prefix
+                          default: 555-555-1234
+                        smsOptInStatus:
+                          type: string
+                          description: 'Optional; Must be one of three values: `I` (Opt-In), `O` (Opt-Out), `U` (Unknown). Please note: phone numbers that have been deactivated by the carrier will be marked with an SMS Opt In Status of "Unknown". This information is updated nightly based on information provided by cell phone carriers.'
+                          enum:
+                          - I
+                          - O
+                          - U
+                    campaignId:
+                      type: integer
+                      description: Optional; a valid [Campaign ID](https://docs.everyaction.com/reference/campaigns). Required if `contentId` is also specified.
+                      format: int32
+                    contentId:
+                      type: integer
+                      description: Optional; a valid Content ID. If specified, the Content's corresponding Campaign must be specified as `campaignId`.
+                      format: int32
+                    includeReferenceIdInResponse:
+                      type: boolean
+                      description: Optional; When set to true, the response body will include a GUID corresponding to the newly created canvass response. This GUID can be used later at GET /people/{vanId}/canvassResponses to retrieve the associated canvassResponseId, which is necessary for patching canvass responses at PATCH /people/{vanId}/canvassResponses/{canvassResponseId}. By default, this parameter is false.
+                resultCodeId:
+                  type: integer
+                  description: Optional; specifies the [Result Code](https://docs.everyaction.com/reference/canvass-responses#canvassresponsesresultcodes) of this Response. If no `resultCodeId` is specified, `responses` must be specified. Conversely, if `responses` are specified, `resultCodeId` must be null (a result of *Canvassed* is implied). The `resultCodeId` must be a valid [Result Code](https://docs.everyaction.com/reference/canvass-responses#canvassresponsesresultcodes) in the current context.
+                  format: int32
+                responses:
+                  type: array
+                  description: Optional; an array of Script Responses. If specified, `resultCodeId` must be null. Each Script Response has a property that determines the response's type. This array can contain multiple types.
+                  items:
+                    properties:
+                      type:
+                        type: string
+                        description: The `type` of this response dictates the validation requirements of other properties. One of `ActivistCode`, `SurveyResponse`, or `VolunteerActivity`
+                        enum:
+                        - ActivistCode
+                        - SurveyResponse
+                        - VolunteerActivity
+                      action:
+                        type: string
+                        description: 'Indicates whether to apply or remove this response from a person (valid for `ActivistCode` and `VolunteerActivity` only). NOTE: when removing a multi-assign Activist Code, include dateCanvassed in the canvassContext array to specify the record.'
+                        default: Apply
+                        enum:
+                        - Apply
+                        - Remove
+                      activistCodeId:
+                        type: integer
+                        description: Required if `type` is `ActivistCode`; a valid [Activist Code ID](https://docs.everyaction.com/reference/activist-codes)
+                        format: int32
+                      surveyQuestionId:
+                        type: integer
+                        description: Required if `type` is `SurveyResponse`; a valid [Survey Question ID](https://docs.everyaction.com/reference/survey-questions)
+                        format: int32
+                      surveyResponseId:
+                        type: integer
+                        description: Required if `type` is `SurveyResponse`; a valid response corresponding to the question specified by `surveyQuestionId`
+                        format: int32
+                      volunteerActivityId:
+                        type: integer
+                        description: Required if `type` is `VolunteerActivity`; a valid Volunteer Activity ID
+                        format: int32
+                    required:
+                    - type
+                    type: object
+            examples:
+              Request Example:
+                value:
+                  canvassContext:
+                    contactTypeId: 82
+                    inputTypeId: 11
+                    dateCanvassed: '2020-02-11T10:15:26Z'
+                    phoneId: 867
+                    skipMatching: false
+                    phone:
+                      dialingPrefix: '1'
+                      phoneNumber: 555-555-1234
+                      smsOptInStatus: I
+                  resultCodeId: 205
+                  responses:
+                  - type: ActivistCode
+                    activistCodeId: 4441467
+                    action: Apply
+                  - type: SurveyResponse
+                    surveyQuestionId: 326496
+                    surveyResponseId: 246016
+                  - type: VolunteerActivity
+                    volunteerActivityId: 3425
+                    action: Apply
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"referenceId\": \"b958d667-8f88-498f-8a2d-559fdd8f145d\"\n}"
+              schema:
+                type: object
+                properties:
+                  referenceId:
+                    type: string
+                    example: b958d667-8f88-498f-8a2d-559fdd8f145d
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"addresses[0].type\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: addresses[0].type
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/canvassResponses/{canvassResponseId}:
+    patch:
+      summary: /people/{vanId}/canvassResponses/{canvassResponseId}
+      description: 'Use this endpoint to PATCH the SMS Opt-In value of a phone in the canvassContext body parameter of a canvass response. Attempting to PATCH other properties of a canvass response will result in a `400: Bad Request` error response.'
+      operationId: peoplevanidcanvassresponsescanvassresponseid
+      parameters:
+      - name: vanId
+        in: path
+        description: Required; Unique person identifier available in the current context.
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: canvassResponseId
+        in: path
+        description: Required; Unique canvass response identifier. Retrieve this from [GET /people/{vanId}/canvassResponses/{referenceId}](https://docs.everyaction.com/reference/peoplevanidcanvassresponsesreferenceid)
+        schema:
+          type: integer
+          format: int32
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                canvassContext:
+                  type: object
+                  description: Required; describes the context in which this Canvass Response was created.
+                  properties:
+                    contactTypeId:
+                      type: integer
+                      description: Optional; a valid [Contact Type ID](https://docs.everyaction.com/reference/canvassresponsescontacttypes)
+                      format: int32
+                    inputTypeId:
+                      type: integer
+                      description: Optional; a valid [Input Type ID](https://docs.everyaction.com/reference/canvassresponsesinputtypes)  (defaults to `11` → API)
+                      default: 11
+                      format: int32
+                    dateCanvassed:
+                      type: string
+                      description: Optional; the ISO 8601 formatted date that the canvass attempt was made (defaults to today’s date)
+                      format: date
+                    phoneId:
+                      type: integer
+                      description: Optional; the identifier of the phone number that was called when canvassing this person. May result in a phone suppression in the event of certain kinds of Result Codes (e.g., Wrong Number.)
+                      format: int32
+                    skipMatching:
+                      type: boolean
+                      description: Optional; if set to `true`, skips matching/de-duping of contact history. Defaults to `false`.
+                    omitActivistCodeContactHistory:
+                      type: boolean
+                      description: Optional; if set to `true`, no contact history record will be created if `responses` contains only Activist Codes
+                    phone:
+                      type: object
+                      description: Optional; describes the context of the phone number where a contact was attempted
+                      properties:
+                        dialingPrefix:
+                          type: string
+                          description: The country calling code of the number
+                          default: '1'
+                        phoneNumber:
+                          type: string
+                          description: Required when inputTypeId is 1 (Phone) or 37 (SMS); the phone number you are attempting - without calling code/dialing prefix
+                          default: 555-555-1234
+                        smsOptInStatus:
+                          type: string
+                          description: 'Optional; Must be one of three values: `I` (Opt-In), `O` (Opt-Out), `U` (Unknown). Please note: phone numbers that have been deactivated by the carrier will be marked with an SMS Opt In Status of "Unknown". This information is updated nightly based on information provided by cell phone carriers.'
+                          enum:
+                          - I
+                          - O
+                          - U
+                    campaignId:
+                      type: integer
+                      description: Optional; a valid [Campaign ID](https://docs.everyaction.com/reference/campaigns). Required if `contentId` is also specified.
+                      format: int32
+                    contentId:
+                      type: integer
+                      description: Optional; a valid Content ID. If specified, the Content's corresponding Campaign must be specified as `campaignId`.
+                      format: int32
+                    includeReferenceIdInResponse:
+                      type: boolean
+                      description: Optional; When set to true, the response body will include a GUID corresponding to the newly created canvass response. This GUID can be used later at GET /people/{vanId}/canvassResponses to retrieve the associated canvassResponseId, which is necessary for patching canvass responses at PATCH /people/{vanId}/canvassResponses/{canvassResponseId}. By default, this parameter is false.
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: '404'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: ''
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/canvassResponses/{referenceId}:
+    get:
+      summary: /people/{vanId}/canvassResponses/{referenceId}
+      description: 'Use this endpoint to retrieve the canvass response associated with a given `referenceId`. A `referenceId` can only be obtained from a POST request to /people/{vanId}/canvassResponses, with the `includeReferenceIdInResponse` body parameter set to true. After a successful POST request, it may take up to 30 minutes for the new canvass response record to be created. If you attempt to use this endpoint to retrieve information about a canvass response record within 30 minutes of the initial POST, you may receive a `404: Not Found` error response.'
+      operationId: peoplevanidcanvassresponsesreferenceid
+      parameters:
+      - name: vanId
+        in: path
+        description: Required; Unique person identifier available in the current context
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: referenceId
+        in: path
+        description: Required; Unique GUID found in the response body of [POST /people/{vanId}/canvassResponses](https://docs.ngpvan.com/reference/peoplevanidcanvassresponses) when includeReferenceIdInResponse is set to true.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": \"6297278\",\n    \"canvassResponses\": [\n        {\n            \"canvassResponseId\": 1530651,\n            \"canvassContext\": {\n                \"contactTypeId\": 37,\n                \"inputTypeId\": 11,\n                \"dateCanvassed\": \"2023-06-01T11:06:00-04:00\",\n                \"phone\": {\n                    \"phoneId\": 6886215,\n                    \"phoneNumber\": \"4567890100\",\n                    \"dialingPrefix\": \"1\",\n                    \"countryCode\": \"US\",\n                    \"ext\": null,\n                    \"dateCreated\": \"2023-06-16T13:09:00Z\",\n                    \"phoneType\": \"Home\",\n                    \"isPreferred\": false,\n                    \"smsOptInStatus\": null,\n                    \"phoneOptInStatus\": null,\n                    \"isCellStatus\": {\n                        \"statusId\": 3,\n                        \"statusName\": \"Likely Not a Cell\"\n                    }\n                },\n                \"campaignId\": null,\n                \"contentId\": null,\n                \"skipMatching\": false,\n                \"teamId\": null,\n                \"divisionId\": null,\n                \"omitActivistCodeContactHistory\": null\n            },\n            \"resultCodeId\": 14,\n            \"responses\": [],\n            \"note\": null,\n            \"emails\": null,\n            \"phones\": null,\n            \"externalReferenceId\": \"58F366C1-B215-46E8-AF45-7FD255DAE3B0\",\n            \"selfReportedDemographicFields\": null\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: string
+                    example: '6297278'
+                  canvassResponses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        canvassResponseId:
+                          type: integer
+                          example: 1530651
+                          default: 0
+                        canvassContext:
+                          type: object
+                          properties:
+                            contactTypeId:
+                              type: integer
+                              example: 37
+                              default: 0
+                            inputTypeId:
+                              type: integer
+                              example: 11
+                              default: 0
+                            dateCanvassed:
+                              type: string
+                              example: '2023-06-01T11:06:00-04:00'
+                            phone:
+                              type: object
+                              properties:
+                                phoneId:
+                                  type: integer
+                                  example: 6886215
+                                  default: 0
+                                phoneNumber:
+                                  type: string
+                                  example: '4567890100'
+                                dialingPrefix:
+                                  type: string
+                                  example: '1'
+                                countryCode:
+                                  type: string
+                                  example: US
+                                ext: {}
+                                dateCreated:
+                                  type: string
+                                  example: '2023-06-16T13:09:00Z'
+                                phoneType:
+                                  type: string
+                                  example: Home
+                                isPreferred:
+                                  type: boolean
+                                  example: false
+                                  default: true
+                                smsOptInStatus: {}
+                                phoneOptInStatus: {}
+                                isCellStatus:
+                                  type: object
+                                  properties:
+                                    statusId:
+                                      type: integer
+                                      example: 3
+                                      default: 0
+                                    statusName:
+                                      type: string
+                                      example: Likely Not a Cell
+                            campaignId: {}
+                            contentId: {}
+                            skipMatching:
+                              type: boolean
+                              example: false
+                              default: true
+                            teamId: {}
+                            divisionId: {}
+                            omitActivistCodeContactHistory: {}
+                        resultCodeId:
+                          type: integer
+                          example: 14
+                          default: 0
+                        responses:
+                          type: array
+                        note: {}
+                        emails: {}
+                        phones: {}
+                        externalReferenceId:
+                          type: string
+                          example: 58F366C1-B215-46E8-AF45-7FD255DAE3B0
+                        selfReportedDemographicFields: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/codes:
+    post:
+      summary: /people/{vanId}/codes
+      description: 'Use this endpoint to apply a single Code to a Person.
+
+
+        If the specified Person does not exist, this endpoint will return an error with HTTP Status Code `404 Not Found.`
+
+
+        If the specified Person does exist but the Code does not or cannot be applied to People, this endpoint will return an error with HTTP Status Code `400 Bad Request`.
+
+
+        In some contexts it is possible to apply both Tags and Source Codes to People. In these contexts, any number of Tags and Source Codes may be accepted. However:
+
+
+        * If any Source Codes are applied to a Person within 24 hours of the creation of a Person record, then the first such Source Code will be marked as the Origin Source Code for the Person. Otherwise, the Person will have no Origin Source Code.
+
+        * If an Origin Source Code exists for a Person, it will be displayed in the user interface; otherwise, no Source Codes for a Person will be displayed in the user interface.
+
+        * All Tags for a Person will be displayed in the user interface.
+
+
+        If successful, the endpoint responds with HTTP Status Code `204 No Content` and an empty response body.'
+      operationId: people-vanid-codes
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codeId:
+                  type: string
+                  description: Required; Unique identifier for an existing [Code](https://docs.everyaction.com/reference/codes) that is applicable to a Person.
+                  default: '20545'
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/codes/{codeId}:
+    delete:
+      summary: /people/{vanId}/codes/{codeId}
+      description: Use this endpoint to remove a single Code from a Person.
+      operationId: people-vanid-codes-codeid
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      - name: codeId
+        in: path
+        description: Required; the ID of a Code that may or may not be applied to the person
+        schema:
+          type: string
+          default: '20545'
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/disclosureFieldValues:
+    post:
+      summary: /people/{vanId}/disclosureFieldValues
+      description: Sets or updates the values of Disclosure Fields.
+      operationId: people-vanid-disclosurefieldvalues
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                disclosureFieldValues:
+                  type: array
+                  description: An array of  [Disclosure Fields Value](https://docs.everyaction.com/reference/people#disclosure-field-values) objects associated with the contribution
+                  items:
+                    properties:
+                      disclosureFieldId:
+                        type: string
+                        description: Identifies the Disclosure Field. Together, the designation id and disclosure field id provide a unique identifier of a Disclosure Field.
+                        default: '1001'
+                      disclosureFieldValue:
+                        type: string
+                        description: The value of the Disclosure Field
+                        default: John
+                      designationId:
+                        type: string
+                        description: The unique identifier of the [Designation](https://everyaction.readme.io/reference#designations) of the Disclosure Field
+                        default: '740'
+                    type: object
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/membership:
+    get:
+      summary: /people/{vanId}/membership
+      description: Retrieves a contact’s most recent membership information and other membership information associated with the contact’s membership history.
+      operationId: people-vanid-membership
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"levelId\": 123,\n    \"levelName\": \"Family Level\",\n    \"statusName\": \"Active\",\n    \"dateExpireMembership\": \"2020-11-01T00:00:00Z\",\n    \"enrollmentTypeName\": \"New\",\n    \"changeTypeName\": \"NoChange\",\n    \"duesPaid\": {\n      \"currencyType\": null,\n      \"amount\": 10.00\n    },\n    \"duesEntityTypeName\": \"Contributions\",\n    \"duesAttributionTypeName\": \"GiftMembership\",\n    \"dateCardsSent\": \"2020-11-26T00:00:00Z\",\n    \"numberOfCards\": 2,\n    \"dateStartMembership\": \"2020-11-25T00:00:00Z\",\n    \"firstMembershipSourceCode\": {\n      \"codeId\": 123456,\n      \"codeName\": \"Acquisition\"\n    },\n    \"numberTimesRenewed\": 0,\n    \"numberConsecutiveYears\": 0,\n    \"dateLastRenewed\": null,\n    \"totalDuesPaid\": {\n      \"currencyType\": null,\n      \"amount\": 10.00\n    }\n  }"
+              schema:
+                type: object
+                properties:
+                  levelId:
+                    type: integer
+                    example: 123
+                    default: 0
+                  levelName:
+                    type: string
+                    example: Family Level
+                  statusName:
+                    type: string
+                    example: Active
+                  dateExpireMembership:
+                    type: string
+                    example: '2020-11-01T00:00:00Z'
+                  enrollmentTypeName:
+                    type: string
+                    example: New
+                  changeTypeName:
+                    type: string
+                    example: NoChange
+                  duesPaid:
+                    type: object
+                    properties:
+                      currencyType: {}
+                      amount:
+                        type: integer
+                        example: 10
+                        default: 0
+                  duesEntityTypeName:
+                    type: string
+                    example: Contributions
+                  duesAttributionTypeName:
+                    type: string
+                    example: GiftMembership
+                  dateCardsSent:
+                    type: string
+                    example: '2020-11-26T00:00:00Z'
+                  numberOfCards:
+                    type: integer
+                    example: 2
+                    default: 0
+                  dateStartMembership:
+                    type: string
+                    example: '2020-11-25T00:00:00Z'
+                  firstMembershipSourceCode:
+                    type: object
+                    properties:
+                      codeId:
+                        type: integer
+                        example: 123456
+                        default: 0
+                      codeName:
+                        type: string
+                        example: Acquisition
+                  numberTimesRenewed:
+                    type: integer
+                    example: 0
+                    default: 0
+                  numberConsecutiveYears:
+                    type: integer
+                    example: 0
+                    default: 0
+                  dateLastRenewed: {}
+                  totalDuesPaid:
+                    type: object
+                    properties:
+                      currencyType: {}
+                      amount:
+                        type: integer
+                        example: 10
+                        default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/mergeInto:
+    put:
+      summary: /people/{vanId}/mergeInto
+      description: 'Merges a Source contact record into a Target contact record, retaining the Target''s information when Source and Target conflict.
+
+
+        This API can be used to merge two contact records in your database.
+
+
+        * The **Source** (or **Secondary**) contact is specified in the URL (`/people/{vanId}/mergeInto`); this record will be deleted as part of the merge
+
+        * The **Target** (or **Primary**) contact is specified in the body of the request and survives the merge
+
+
+        >❗️ Merges are permanent and **cannot** be undone. Use this endpoint with caution.
+
+
+        Some fields may conflict between the two records and the merge process will not be able to retain both values (e.g., different first names). In this case, the API will retain the Target''s information, which is the same behavior as the default selections in the Contacts Merge Wizard in the UI. Note that if you need to retain information from the Source, you can make a subsequent /people/{vanId} call to update the Target with the value(s) from the Source record you want to persist. All other fields where multiple values can be stored--such as emails, phones, and addresses--will be combined into the Target record.
+
+
+        Not all records can be merged; if a record cannot be merged it will be treated as an Input Validation error with details provided in the `text` field of the error response. Though not exhaustive, some conditions that could prevent a merge are:
+
+
+        * Both VANIDs need to exist and be accessible to you
+
+        * Both records must have the same `contactMode`
+
+        * If Disclosure Fields are enabled, the Source record cannot be linked to a Contribution or Disbursement
+
+
+        To check if records can be merged without actually merging, you can specify `?whatIf=true` in the query string.'
+      operationId: people-vanid-mergeinto
+      parameters:
+      - name: vanId
+        in: path
+        description: VANID for the **Source** record (the record that will go away)
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: whatIf
+        in: query
+        description: If `true`, simulates the merge request without actually executing the merge. Useful for determining whether two records are able to be merged.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - vanId
+              properties:
+                vanId:
+                  type: integer
+                  description: VANID for the **Target** record (the record that survives the merge)
+                  format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"vanId\": 111464335\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 111464335
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"INVALID_PARAMETER\",\n      \"text\": \"You must have access to both contacts to merge them.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: INVALID_PARAMETER
+                        text:
+                          type: string
+                          example: You must have access to both contacts to merge them.
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/myActivistFlags:
+    put:
+      summary: /people/{vanId}/myActivistFlags
+      description: Apply the My Activist flag to a person. Marks this person, who belongs to a master data sharing committee, as an activist who can be viewed in the current context.
+      operationId: people-vanid-myactivistflags
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+      deprecated: false
+      tags:
+      - People
+    delete:
+      summary: /people/{vanId}/myActivistFlags
+      description: Remove the My Activist flag from a person. Prevents this person, who belongs to a master data sharing committee, from being be viewed in the current context as an activist.
+      operationId: delete-people-vanid-myactivistflags
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/names:
+    patch:
+      summary: /people/{vanId}/names
+      description: Changes the name and salutation attributes for a person or organization.
+      operationId: people-vanid-names
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '12345678'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Optional; an honorific
+                firstName:
+                  type: string
+                  description: Optional; a person’s first name
+                middleName:
+                  type: string
+                  description: Optional; a person’s middle name
+                lastName:
+                  type: string
+                  description: Optional; a person’s last name
+                suffix:
+                  type: string
+                  description: Optional; part of name following last name, e.g. "Jr."
+                professionalSuffix:
+                  type: string
+                  description: Optional; a person's professional suffix, e.g. "M.D."
+                nickname:
+                  type: string
+                  description: Optional; a person's preferred informal name
+                salutation:
+                  type: string
+                  description: Optional; preferred greeting for correspondence; defaults to a person's `firstName`
+                additionalSalutation:
+                  type: string
+                  description: Optional; additional preferred greeting for correspondence; defaults to `organizationContactCommonName` for organizations
+                formalSalutation:
+                  type: string
+                  description: Optional; preferred formal greeting for correspondence; defaults to `title` and `lastName` for people or "Friends" for organizations
+                envelopeName:
+                  type: string
+                  description: Optional; preferred name to use for mailings; defaults to the person's full name, including their middle initial, or `organizationContactCommonName` depending on the contact type
+                formalEnvelopeName:
+                  type: string
+                  description: Optional; preferred formal name to use for mailings; defaults to the person's full name, including their middle initial, title, and suffix, or `organizationContactOfficialName` depending on the contact type
+                additionalEnvelopeName:
+                  type: string
+                  description: Optional; additional preferred name to use for mailings
+                pronouns:
+                  type: object
+                  description: Optional; a person's pronouns
+                  properties:
+                    preferredPronounId:
+                      type: integer
+                      description: Unique identifier for the pronouns
+                      default: 1
+                      format: int32
+                    preferredPronounName:
+                      type: string
+                      description: The pronoun sequence associated the the unique identifier
+                      default: They/Them/Theirs
+                organizationContactCommonName:
+                  type: string
+                  description: Optional; an organization's common name
+                organizationContactOfficialName:
+                  type: string
+                  description: Optional; an organization's official name
+            examples:
+              Request Example:
+                value:
+                  title: Mr.
+                  firstName: Steven
+                  middleName: Allen
+                  lastName: Brooks
+                  suffix: II
+                  nickname: Steve
+                  professionalSuffix: M.D.
+                  pronouns:
+                    pronounId: 11
+                    pronounName: He/Him/His
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"vanId\": 12345678,\n    \"firstName\": \"Steven\",\n    \"lastName\": \"Brooks\",\n    \"middleName\": \"Allen\",\n    \"suffix\": \"II\",\n    \"title\": \"Mr.\",\n    \"sourceFileTitle\": null,\n    \"sourceFileFirstName\": null,\n    \"sourceFileMiddleName\": null,\n    \"sourceFileLastName\": null,\n    \"sourceFileSuffix\": null,\n    \"contactMode\": \"Person\",\n    \"organizationContactCommonName\": null,\n    \"organizationContactOfficialName\": null,\n    \"salutation\": \"Steven\",\n    \"formalSalutation\": \"Mr. Brooks\",\n    \"additionalSalutation\": null,\n    \"pronouns\": {\n        \"pronounId\": 11,\n        \"pronounName\": \"He/Him/His\"\n    },\n    \"envelopeName\": \"Steven A. Brooks\",\n    \"formalEnvelopeName\": \"Mr. Steven A. Brooks, II\",\n    \"additionalEnvelopeName\": null,\n    \"contactMethodPreferenceCode\": null,\n    \"nickname\": \"Steve\",\n    \"website\": null,\n    \"professionalSuffix\": \"M.D.\",\n    \"party\": null,\n    \"employer\": null,\n    \"occupation\": null,\n    \"sex\": null,\n    \"dateOfBirth\": null,\n    \"selfReportedRace\": null,\n    \"selfReportedEthnicity\": null,\n    \"selfReportedRaces\": null,\n    \"selfReportedEthnicities\": null,\n    \"selfReportedGenders\": null,\n    \"selfReportedSexualOrientations\": null,\n    \"selfReportedLanguagePreference\": null,\n    \"emails\": null,\n    \"phones\": null,\n    \"addresses\": null,\n    \"recordedAddresses\": null,\n    \"identifiers\": null,\n    \"codes\": null,\n    \"customFields\": null,\n    \"primaryCustomField\": null,\n    \"contributionSummary\": null,\n    \"suppressions\": null,\n    \"caseworkCases\": null,\n    \"caseworkIssues\": null,\n    \"caseworkStories\": null,\n    \"notes\": null,\n    \"scores\": null,\n    \"customProperties\": null,\n    \"electionRecords\": null,\n    \"membershipStatus\": null,\n    \"organizationRoles\": null,\n    \"districts\": null,\n    \"surveyQuestionResponses\": null,\n    \"finderNumber\": null,\n    \"biographyImageUrl\": null,\n    \"primaryContact\": null\n}"
+              schema:
+                type: object
+                properties:
+                  vanId:
+                    type: integer
+                    example: 12345678
+                    default: 0
+                  firstName:
+                    type: string
+                    example: Steven
+                  lastName:
+                    type: string
+                    example: Brooks
+                  middleName:
+                    type: string
+                    example: Allen
+                  suffix:
+                    type: string
+                    example: II
+                  title:
+                    type: string
+                    example: Mr.
+                  sourceFileTitle: {}
+                  sourceFileFirstName: {}
+                  sourceFileMiddleName: {}
+                  sourceFileLastName: {}
+                  sourceFileSuffix: {}
+                  contactMode:
+                    type: string
+                    example: Person
+                  organizationContactCommonName: {}
+                  organizationContactOfficialName: {}
+                  salutation:
+                    type: string
+                    example: Steven
+                  formalSalutation:
+                    type: string
+                    example: Mr. Brooks
+                  additionalSalutation: {}
+                  pronouns:
+                    type: object
+                    properties:
+                      pronounId:
+                        type: integer
+                        example: 11
+                        default: 0
+                      pronounName:
+                        type: string
+                        example: He/Him/His
+                  envelopeName:
+                    type: string
+                    example: Steven A. Brooks
+                  formalEnvelopeName:
+                    type: string
+                    example: Mr. Steven A. Brooks, II
+                  additionalEnvelopeName: {}
+                  contactMethodPreferenceCode: {}
+                  nickname:
+                    type: string
+                    example: Steve
+                  website: {}
+                  professionalSuffix:
+                    type: string
+                    example: M.D.
+                  party: {}
+                  employer: {}
+                  occupation: {}
+                  sex: {}
+                  dateOfBirth: {}
+                  selfReportedRace: {}
+                  selfReportedEthnicity: {}
+                  selfReportedRaces: {}
+                  selfReportedEthnicities: {}
+                  selfReportedGenders: {}
+                  selfReportedSexualOrientations: {}
+                  selfReportedLanguagePreference: {}
+                  emails: {}
+                  phones: {}
+                  addresses: {}
+                  recordedAddresses: {}
+                  identifiers: {}
+                  codes: {}
+                  customFields: {}
+                  primaryCustomField: {}
+                  contributionSummary: {}
+                  suppressions: {}
+                  caseworkCases: {}
+                  caseworkIssues: {}
+                  caseworkStories: {}
+                  notes: {}
+                  scores: {}
+                  customProperties: {}
+                  electionRecords: {}
+                  membershipStatus: {}
+                  organizationRoles: {}
+                  districts: {}
+                  surveyQuestionResponses: {}
+                  finderNumber: {}
+                  biographyImageUrl: {}
+                  primaryContact: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+        '404':
+          description: '404'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"text\": \"The specified resource cannot be found.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: NOT_FOUND
+                        text:
+                          type: string
+                          example: The specified resource cannot be found.
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/notes:
+    get:
+      summary: /people/{vanId}/notes
+      description: 'Retrieves a list of Notes on a Person.
+
+
+        This endpoint accepts standard pagination parameters and returns a standard paginated response.
+
+
+        By default, this endpoint returns 25 records per request. A maximum of 50 records per request is allowed via the `$top` parameter.'
+      operationId: people-vanid-notes
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "  {\n    \"items\": [\n      {\n        \"noteId\": 225,\n        \"text\": \"Great chat! This person will be able to volunteer next year.\",\n        \"isViewRestricted\": false,\n        \"category\": {\n          \"noteCategoryId\": 0,\n          \"name\": null\n        },\n        \"createdDate\": \"2012-08-22T12:13:00Z\"\n      }],\n    \"count\": 1\n  }"
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        noteId:
+                          type: integer
+                          example: 225
+                          default: 0
+                        text:
+                          type: string
+                          example: Great chat! This person will be able to volunteer next year.
+                        isViewRestricted:
+                          type: boolean
+                          example: false
+                          default: true
+                        category:
+                          type: object
+                          properties:
+                            noteCategoryId:
+                              type: integer
+                              example: 0
+                              default: 0
+                            name: {}
+                        createdDate:
+                          type: string
+                          example: '2012-08-22T12:13:00Z'
+                  count:
+                    type: integer
+                    example: 1
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - People
+    post:
+      summary: /people/{vanId}/notes
+      description: Add Notes to a Person using a free-form text description.
+      operationId: post-people-vanid-notes
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Required; the content of the description of the Person.
+                  default: Great chat! This person will be able to volunteer next year.
+                isViewRestricted:
+                  type: boolean
+                  description: Required; set to `true` if the note should be restricted only to certain users within the current context; set to `false` if the note may be viewed by any user in the current context.
+                  default: false
+                category:
+                  type: object
+                  description: Optional; if specified, must be an object whose `noteCategoryId` corresponds to a Note Category which may be applied to People, and which is available at `GET /notes/categories`,
+                  properties:
+                    noteCategoryId:
+                      type: integer
+                      description: Unique identifier for a Note Category in this context
+                      default: 99
+                      format: int32
+                contactHistory:
+                  type: object
+                  description: Optional; if specified, creates a Contact History record with the note, and must be a valid `Contact History` object
+                  properties:
+                    contactTypeId:
+                      type: string
+                      description: Optional; a valid [Contact Type ID](https://everyaction.readme.io/reference#canvassresponsescontacttypes)
+                      default: '82'
+                    inputTypeId:
+                      type: string
+                      description: Optional; a valid [Input Type ID](https://everyaction.readme.io/reference#canvassresponsesinputtypes) (defaults to `11` → API)
+                      default: '11'
+                    dateCanvassed:
+                      type: string
+                      description: Optional; the [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) formatted date that the canvass attempt was made (defaults to today’s date)
+                      default: '2020-01-09T15:24:18Z'
+                      format: date
+                    resultCodeId:
+                      type: string
+                      description: Optional; specifies the [Result Code](https://everyaction.readme.io/reference#canvassresponsesresultcodes) of this Contact History. If no `resultCodeId` is specified, a result of *Canvassed* is applied. The `resultCodeId` must be a valid [Result Code](https://everyaction.readme.io/reference#canvassresponsesresultcodes) in the current context.
+                      default: '205'
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errors\":[\n    {\n      \"code\":\"NOT_FOUND\"\n      \"text\":\"The specified resource cannot be found.\"\n    }\n  ]\n}"
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/notes/{noteId}:
+    put:
+      summary: /people/{vanId}/notes/{noteId}
+      description: Updates properties on an existing Note record. Only `text`, `isViewRestricted`, and `category` may be updated.
+      operationId: people-vanid-notes-noteid
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      - name: noteId
+        in: path
+        description: The ID of the note to be edited
+        schema:
+          type: string
+          default: '225'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Required; the content of the description of the Person.
+                  default: Great chat! This person will be able to volunteer next year.
+                isViewRestricted:
+                  type: boolean
+                  description: Required; set to `true` if the note should be restricted only to certain users within the current context; set to `false` if the note may be viewed by any user in the current context.
+                  default: false
+                category:
+                  type: object
+                  description: Optional; if specified, must be an object whose `noteCategoryId` corresponds to a Note Category which may be applied to People, and which is available at `GET /notes/categories`,
+                  properties:
+                    noteCategoryId:
+                      type: integer
+                      description: Unique identifier for a Note Category in this context
+                      default: 99
+                      format: int32
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\"            \n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+      deprecated: false
+      tags:
+      - People
+  /people/{vanId}/relationships:
+    post:
+      summary: /people/{vanId}/relationships
+      description: 'Use this endpoint to create a single Relationship between two People.
+
+
+        The Person indicated in the body of the request is the “source” of the relationship, and the Person indicated in the URL route is the “destination” of the relationship. In this case, Person 100476252 is the parent of Person 7890123.
+
+
+        If the Person specified in the URL route does not exist, this endpoint will return an error with HTTP Status Code `404 Not Found`.
+
+
+        If the Relationship or Person specified in the request body are not available, this endpoint will return an error or errors with HTTP Status Code `400 Bad Request`.
+
+
+        If successful, the endpoint responds with HTTP Status Code `204 No Content` and an empty response body.'
+      operationId: people-vanid-relationships
+      parameters:
+      - name: vanId
+        in: path
+        description: Unique person identifier available in the current context
+        schema:
+          type: string
+          default: '100476252'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                relationshipId:
+                  type: string
+                  description: Required; Unique identifier for an existing [Relationship](https://docs.everyaction.com/reference/relationships).
+                  default: '19'
+                vanId:
+                  type: string
+                  description: Required; Unique identifier of the Person who is related to the Person from the URL route.
+                  default: '7890123'
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errors\": [\n        {\n            \"code\": \"Error code\",\n            \"text\": \"Error description\",\n            \"properties\": [\n                \"propertyName\"\n            ]\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: Error code
+                        text:
+                          type: string
+                          example: Error description
+                        properties:
+                          type: array
+                          items:
+                            type: string
+                            example: propertyName
+      deprecated: false
+      tags:
+      - People
+components:
+  securitySchemes:
+    sec0:
+      type: http
+      scheme: basic
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.everyaction.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.everyaction.com/reference/activistcodes-activistcodeid.md
+  - https://docs.everyaction.com/reference/activistcodes.md
+  - https://docs.everyaction.com/reference/ballotrequesttypes-ballotrequesttypeid.md
+  - https://docs.everyaction.com/reference/ballotrequesttypes.md
+  - https://docs.everyaction.com/reference/ballotreturnstatuses-ballotreturnstatusid.md
+  - https://docs.everyaction.com/reference/ballotreturnstatuses.md
+  - https://docs.everyaction.com/reference/ballottypes-ballottypeid.md
+  - https://docs.everyaction.com/reference/ballottypes.md
+  - https://docs.everyaction.com/reference/bargainingunits-bargainingunitid.md
+  - https://docs.everyaction.com/reference/bargainingunits.md
+  - https://docs.everyaction.com/reference/bulkimportjobs-jobid.md
+  - https://docs.everyaction.com/reference/bulkimportjobs-resources.md
+  - https://docs.everyaction.com/reference/bulkimportjobs.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes-mappingtypename-fieldname-values.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes-mappingtypename.md
+  - https://docs.everyaction.com/reference/bulkimportmappingtypes.md
+  - https://docs.everyaction.com/reference/canvassfilereqeusts-canvassfilerequestid.md
+  - https://docs.everyaction.com/reference/canvassfilerequests.md
+  - https://docs.everyaction.com/reference/canvassresponses-contacttypes.md
+  - https://docs.everyaction.com/reference/canvassresponses-inputtypes.md
+  - https://docs.everyaction.com/reference/canvassresponses-resultcodes.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-changetypes-resourcetype.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-exportjobid.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-fields-resourcetype.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs-resources.md
+  - https://docs.everyaction.com/reference/changedentityexportjobs.md
+  - https://docs.everyaction.com/reference/codes-batch.md
+  - https://docs.everyaction.com/reference/codes-codeid.md
+  - https://docs.everyaction.com/reference/codes-supportedentities.md
+  - https://docs.everyaction.com/reference/codesextendedsourcecodes.md
+  - https://docs.everyaction.com/reference/codetypes.md
+  - https://docs.everyaction.com/reference/commitments-commitmentid.md
+  - https://docs.everyaction.com/reference/commitments-recurringpayments.md
+  - https://docs.everyaction.com/reference/commitments.md
+  - https://docs.everyaction.com/reference/contributions-alternateidtype-alternateid.md
+  - https://docs.everyaction.com/reference/contributions-attribution-types.md
+  - https://docs.everyaction.com/reference/contributions-contributionid-adjustments.md
+  - https://docs.everyaction.com/reference/contributions-contributionid-attributions-vanid.md
+  - https://docs.everyaction.com/reference/contributions-contributionid.md
+  - https://docs.everyaction.com/reference/contributions-payments.md
+  - https://docs.everyaction.com/reference/contributionsrecentcontributions.md
+  - https://docs.everyaction.com/reference/create-surveyquestion.md
+  - https://docs.everyaction.com/reference/customfields-customfieldid.md
+  - https://docs.everyaction.com/reference/customfields.md
+  - https://docs.everyaction.com/reference/delete-codes-codeid.md
+  - https://docs.everyaction.com/reference/delete-codes.md
+  - https://docs.everyaction.com/reference/delete-contributions-contributionid-attributions-vanid.md
+  - https://docs.everyaction.com/reference/delete-events-eventid.md
+  - https://docs.everyaction.com/reference/delete-people-vanid-myactivistflags.md
+  - https://docs.everyaction.com/reference/departments-departmentid.md
+  - https://docs.everyaction.com/reference/designations-designationid.md
+  - https://docs.everyaction.com/reference/disbursements-disbursementid.md
+  - https://docs.everyaction.com/reference/disbursementsrecentdisbursements.md
+  - https://docs.everyaction.com/reference/districtfields-districtfieldid.md
+  - https://docs.everyaction.com/reference/districtfields.md
+  - https://docs.everyaction.com/reference/earlyvotefields.md
+  - https://docs.everyaction.com/reference/earlyvotefieldsearlyvotefieldid.md
+  - https://docs.everyaction.com/reference/echoes.md
+  - https://docs.everyaction.com/reference/email-message-emailid.md
+  - https://docs.everyaction.com/reference/email-messages.md
+  - https://docs.everyaction.com/reference/employers-employerid-bargainingunits-bargainingunitid-jobclassesjobclassid.md
+  - https://docs.everyaction.com/reference/employers-employerid-bargainingunits-bargainingunitid.md
+  - https://docs.everyaction.com/reference/employers-employerid-deparments.md
+  - https://docs.everyaction.com/reference/employers-employerid-shifttypes-shifttypeid.md
+  - https://docs.everyaction.com/reference/employers-employerid-worksites.md
+  - https://docs.everyaction.com/reference/employers-employerid.md
+  - https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitiddelete.md
+  - https://docs.everyaction.com/reference/employersemployeridbargainingunitsbargainingunitidjobclassesjobclassiddelete.md
+  - https://docs.everyaction.com/reference/employersemployeridshifttypesshifttypeiddelete.md
+  - https://docs.everyaction.com/reference/events-eventid-shifts.md
+  - https://docs.everyaction.com/reference/events-eventid.md
+  - https://docs.everyaction.com/reference/events-types-eventtypeid.md
+  - https://docs.everyaction.com/reference/events-types.md
+  - https://docs.everyaction.com/reference/exportjobs.md
+  - https://docs.everyaction.com/reference/exportjobsexportjobid.md
+  - https://docs.everyaction.com/reference/exportjobtypes.md
+  - https://docs.everyaction.com/reference/fileloadingjobs.md
+  - https://docs.everyaction.com/reference/fileloadingjobsjobid.md
+  - https://docs.everyaction.com/reference/fileloadingjobsjobidstats.md
+  - https://docs.everyaction.com/reference/financialbatches-1.md
+  - https://docs.everyaction.com/reference/financialbatches.md
+  - https://docs.everyaction.com/reference/financialbatchesfinancialbatchid.md
+  - https://docs.everyaction.com/reference/find-by-phone.md
+  - https://docs.everyaction.com/reference/folders-1.md
+  - https://docs.everyaction.com/reference/foldersfolderid.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregions.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionid.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsmapregionidrefresh.md
+  - https://docs.everyaction.com/reference/foldersfolderidmapregionsrefresh.md
+  - https://docs.everyaction.com/reference/get-campaign-by-id.md
+  - https://docs.everyaction.com/reference/get-campaigns.md
+  - https://docs.everyaction.com/reference/get-codes.md
+  - https://docs.everyaction.com/reference/get-departments.md
+  - https://docs.everyaction.com/reference/get-designations.md
+  - https://docs.everyaction.com/reference/get-employers.md
+  - https://docs.everyaction.com/reference/get-events.md
+  - https://docs.everyaction.com/reference/get-people-personid-type-personid.md
+  - https://docs.everyaction.com/reference/get-people-vanid.md
+  - https://docs.everyaction.com/reference/get-people.md
+  - https://docs.everyaction.com/reference/introspection.md
+  - https://docs.everyaction.com/reference/jobclasses-1.md
+  - https://docs.everyaction.com/reference/jobclasses.md
+  - https://docs.everyaction.com/reference/jobclassesjobclassid.md
+  - https://docs.everyaction.com/reference/locations-1.md
+  - https://docs.everyaction.com/reference/locations-2.md
+  - https://docs.everyaction.com/reference/locationsfindorcreate.md
+  - https://docs.everyaction.com/reference/locationslocationid-1.md
+  - https://docs.everyaction.com/reference/locationslocationid.md
+  - https://docs.everyaction.com/reference/memberstatuses-1.md
+  - https://docs.everyaction.com/reference/memberstatuses.md
+  - https://docs.everyaction.com/reference/memberstatusesmemberstatusid.md
+  - https://docs.everyaction.com/reference/minivanexports.md
+  - https://docs.everyaction.com/reference/minivanexportsminivanexportid.md
+  - https://docs.everyaction.com/reference/notescategories.md
+  - https://docs.everyaction.com/reference/notescategoriesnotecategoryid.md
+  - https://docs.everyaction.com/reference/notescategorytypes.md
+  - https://docs.everyaction.com/reference/onlineactionsforms.md
+  - https://docs.everyaction.com/reference/onlineactionsformsformtrackingid.md
+  - https://docs.everyaction.com/reference/patch-codes-codeid.md
+  - https://docs.everyaction.com/reference/patch-employers-employerid.md
+  - https://docs.everyaction.com/reference/patch-events-eventid.md
+  - https://docs.everyaction.com/reference/people-find.md
+  - https://docs.everyaction.com/reference/people-findorcreate.md
+  - https://docs.everyaction.com/reference/people-persoid-type-personid.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-canvassresponses.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-codes-codeid.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-codes.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-disclosurefieldvalues.md
+  - https://docs.everyaction.com/reference/people-personidtype-personid-notes.md
+  - https://docs.everyaction.com/reference/people-vanid-activistcodes.md
+  - https://docs.everyaction.com/reference/people-vanid-canvassresponses.md
+  - https://docs.everyaction.com/reference/people-vanid-codes-codeid.md
+  - https://docs.everyaction.com/reference/people-vanid-codes.md
+  - https://docs.everyaction.com/reference/people-vanid-delete.md
+  - https://docs.everyaction.com/reference/people-vanid-disclosurefieldvalues.md
+  - https://docs.everyaction.com/reference/people-vanid-membership.md
+  - https://docs.everyaction.com/reference/people-vanid-mergeinto.md
+  - https://docs.everyaction.com/reference/people-vanid-myactivistflags.md
+  - https://docs.everyaction.com/reference/people-vanid-names.md
+  - https://docs.everyaction.com/reference/people-vanid-notes-noteid.md
+  - https://docs.everyaction.com/reference/people-vanid-notes.md
+  - https://docs.everyaction.com/reference/people-vanid-relationships.md
+  - https://docs.everyaction.com/reference/people-vanid.md
+  - https://docs.everyaction.com/reference/peoplepersonidcanvassresponsesreferenceid.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsescanvassresponseid-copy.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsescanvassresponseid.md
+  - https://docs.everyaction.com/reference/peoplevanidcanvassresponsesreferenceid.md
+  - https://docs.everyaction.com/reference/post-bargainingunits.md
+  - https://docs.everyaction.com/reference/post-codes.md
+  - https://docs.everyaction.com/reference/post-contributions.md
+  - https://docs.everyaction.com/reference/post-disbursements.md
+  - https://docs.everyaction.com/reference/post-employers.md
+  - https://docs.everyaction.com/reference/post-events.md
+  - https://docs.everyaction.com/reference/post-people-vanid-notes.md
+  - https://docs.everyaction.com/reference/printedlists.md
+  - https://docs.everyaction.com/reference/printedlistsprintedlistnumber.md
+  - https://docs.everyaction.com/reference/pronouns.md
+  - https://docs.everyaction.com/reference/put-codes-codeid.md
+  - https://docs.everyaction.com/reference/put-codes.md
+  - https://docs.everyaction.com/reference/put-events-eventid.md
+  - https://docs.everyaction.com/reference/relationships-1.md
+  - https://docs.everyaction.com/reference/reportedethnicities.md
+  - https://docs.everyaction.com/reference/reportedgenders.md
+  - https://docs.everyaction.com/reference/reportedlanguagepreferences.md
+  - https://docs.everyaction.com/reference/reportedraces.md
+  - https://docs.everyaction.com/reference/reportedsexualorientations.md
+  - https://docs.everyaction.com/reference/savedlists.md
+  - https://docs.everyaction.com/reference/savedlistssavedlistid.md
+  - https://docs.everyaction.com/reference/scheduletypes-1.md
+  - https://docs.everyaction.com/reference/scheduletypes.md
+  - https://docs.everyaction.com/reference/scheduletypesscheduletypeid.md
+  - https://docs.everyaction.com/reference/scores-1.md
+  - https://docs.everyaction.com/reference/scoresscoreid.md
+  - https://docs.everyaction.com/reference/scoresscoreidcommitteeaccess.md
+  - https://docs.everyaction.com/reference/scoreupdates.md
+  - https://docs.everyaction.com/reference/scoreupdatesscoreupdateid-1.md
+  - https://docs.everyaction.com/reference/scoreupdatesscoreupdateid.md
+  - https://docs.everyaction.com/reference/shifttypes-1.md
+  - https://docs.everyaction.com/reference/shifttypes.md
+  - https://docs.everyaction.com/reference/shifttypesshifttypeid.md
+  - https://docs.everyaction.com/reference/signups-1.md
+  - https://docs.everyaction.com/reference/signups-2.md
+  - https://docs.everyaction.com/reference/signupseventsignupid-1.md
+  - https://docs.everyaction.com/reference/signupseventsignupid-2.md
+  - https://docs.everyaction.com/reference/signupseventsignupid.md
+  - https://docs.everyaction.com/reference/signupsstatuses.md
+  - https://docs.everyaction.com/reference/smssync.md
+  - https://docs.everyaction.com/reference/stories-1.md
+  - https://docs.everyaction.com/reference/storiesstoryid.md
+  - https://docs.everyaction.com/reference/supportergroups-1.md
+  - https://docs.everyaction.com/reference/supportergroups.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupid-1.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupid.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupidpeoplevanid-1.md
+  - https://docs.everyaction.com/reference/supportergroupssupportergroupidpeoplevanid.md
+  - https://docs.everyaction.com/reference/surveyquestions.md
+  - https://docs.everyaction.com/reference/surveyquestionssurveyquestionid-1.md
+  - https://docs.everyaction.com/reference/surveyquestionssurveyquestionid.md
+  - https://docs.everyaction.com/reference/targetexportjobs.md
+  - https://docs.everyaction.com/reference/targetexportjobsexportjobid.md
+  - https://docs.everyaction.com/reference/targets-1.md
+  - https://docs.everyaction.com/reference/targetstargetid.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues-1.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues-2.md
+  - https://docs.everyaction.com/reference/usersuseriddistrictfieldvalues.md
+  - https://docs.everyaction.com/reference/voterregistrationbatches-1.md
+  - https://docs.everyaction.com/reference/voterregistrationbatches.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesbatchid.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesbatchidpeople.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesprogramtypes.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesregistrationforms.md
+  - https://docs.everyaction.com/reference/voterregistrationbatchesstatesstatesupportedfields.md
+  - https://docs.everyaction.com/reference/worksites-1.md
+  - https://docs.everyaction.com/reference/worksitesworksiteid.md
+  - https://docs.everyaction.com/reference/worksitesworksiteiddelete.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidput.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareas.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareasput.md
+  - https://docs.everyaction.com/reference/worksitesworksiteidworkareasworkareaiddelete.md
+  merge:
+    pages: 219
+    deduped: 218
+    conflicts_kept_first: 0
