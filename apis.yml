@@ -541,6 +541,8 @@ apis:
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -557,6 +559,8 @@ apis:
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
+  - Export Jobs
+  tags_raw:
   - ExportJobs
   properties:
   - type: OpenAPI
@@ -656,6 +660,8 @@ apis:
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
@@ -889,6 +895,8 @@ apis:
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
+  - Saved Lists
+  tags_raw:
   - SavedLists
   properties:
   - type: OpenAPI
@@ -1052,6 +1060,8 @@ apis:
   humanURL: https://docs.everyaction.com/
   baseURL: https://api.securevan.com/v4/
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
